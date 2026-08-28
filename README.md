@@ -21,7 +21,7 @@
 
 **Awesome Agent Eval** 旨在构建一个**工业级、端到端、零基础到精通的 AI Agent 评测体系与实操框架**。
 
-本项目不仅覆盖**核心度量指标（Accuracy、BLEU、BERTScore、NDCG）** 与 **主流评测框架（OpenCompass、LM-Eval-Harness、DeepEval、Ragas）**，更提供 **企业级评测平台架构开发方案、开箱即用的自动化测试脚本、标准数据结构（JSON Schemas）与前沿基准深度剖析**。
+本项目不仅系统覆盖**核心度量指标（Accuracy、BLEU、BERTScore、NDCG）** 与 **主流评测框架（OpenCompass、LM-Eval-Harness、DeepEval、Ragas）**，更提供 **企业级评测平台架构开发方案、开箱即用的自动化测试脚本、标准数据结构（JSON Schemas）与前沿基准深度剖析**。
 
 ---
 
@@ -45,13 +45,13 @@ graph TD
         D7 --> D8["08. 自主编程智能体专题 (OpenHands 与 SWE-Agent 架构与 ACI 实战)"]
     end
 
-    subgraph STAGE4["第四阶段：发布闸门、评测平台与生态雷达 (Production & Platforms)"]
+    subgraph STAGE4["第四阶段：发布闸门与评测平台 (Production & Platforms)"]
         D8 --> D9["09. 5 大发布闸门红线、线上 A/B 灰度与数据飞轮"]
         D9 --> D10["10. 全球主流评测框架 (OpenCompass/LM-Eval) 与评测平台架构实战"]
     end
 
-    subgraph STAGE5["第五阶段：面试速通与实战题库 (Interview Mastery)"]
-        D10 --> D11["11. 23 道 Agent 评测核心面试题与答题卡片 (全景背诵版)"]
+    subgraph STAGE5["第五阶段：疑难解答与最佳实践 (FAQs & Best Practices)"]
+        D10 --> D11["11. 核心疑难问题深度解析与工业界避坑最佳实践 FAQ"]
     end
 ```
 
@@ -61,11 +61,11 @@ graph TD
 
 | 指标名称 | 计算原理与数学特性 | 适用评测场景 | 官方开源库 / 对应 GitHub |
 | :--- | :--- | :--- | :--- |
-| **Accuracy (准确率)** | 预测正确的样本比例 ($\frac{TP+TN}{Total}$) | 单选/多选题 (MMLU)、分类 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
+| **Accuracy (准确率)** | 预测正确的样本比例 ($\frac{TP+TN}{Total}$) | 单选/多选题 (MMLU)、分类任务 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **Exact Match (EM)** | 100% 严格一致（可配合标点/空格归一化） | 工具函数名、槽位抽取、状态码 | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **BLEU (1~4)** | Modified n-gram 匹配精确率 + 简短惩罚 (BP) | 机器翻译、代码生成 (HumanEval) | [`nltk`](https://github.com/nltk/nltk) / [`sacrebleu`](https://github.com/mjpost/sacrebleu) |
 | **ROUGE (1/2/L)** | 基于最长公共子序列（LCS）的召回率导向度量 | 文本摘要、文档提炼、新闻总结 | [`google-research/rouge`](https://github.com/google-research/google-research) |
-| **BERTScore** | 预训练模型 Contextual Embedding 最大余弦相似度 | 开放式问答、释义匹配 (抗同义词) | [`Tiiiger/bert_score`](https://github.com/Tiiiger/bert_score) *(ICLR 2020)* |
+| **BERTScore** | 预训练模型 Contextual Embedding 最大余弦相似度 | 开放式问答、释义匹配 (**攻克同义词盲区**) | [`Tiiiger/bert_score`](https://github.com/Tiiiger/bert_score) *(ICLR 2020)* |
 | **NDCG@k / MRR** | 归一化折损累计增益与平均倒数排名 | RAG 知识检索切片排序质量评估 | [`ranx`](https://github.com/AmenDa/ranx) / [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) |
 
 ---
@@ -116,7 +116,7 @@ graph TD
 | [**08. 自主编程 Agent 专题**](./docs/08-autonomous-coding-agents.md) | OpenHands 与 SWE-Agent 架构深度拆解 | ACI 智能体-计算机接口设计、EventStream 与 SWE-bench 实战 |
 | [**09. 发布闸门与运维监控**](./docs/09-release-and-ops.md) | 5 大发布闸门红线与线上可观测性 | 质量/时延/安全红线、灰度放量、数据飞轮回归闭环 |
 | [**10. 评测平台与生态雷达**](./docs/10-awesome-tools-and-frameworks.md) | OpenCompass、LM-Eval 与评测系统架构 | 工业级评测平台 5 层架构设计方案与分布式算子调度 |
-| [**11. 高频面试题库卡片**](./docs/11-interview-cards.md) | 23 道 Agent 评测核心面试题与答题卡片 | 涵盖概念、方法、指标、工程落地全景解析 |
+| [**11. 疑难解答与最佳实践**](./docs/11-faqs-and-best-practices.md) | 核心疑难问题深度解析与工业界避坑 FAQ | 涵盖概念、方法、指标、工程落地全景解析 |
 
 ---
 
@@ -155,7 +155,7 @@ python evals/robustness_and_fallback_demo.py
 欢迎提交 Issue 和 Pull Request！
 - 🌟 分享工业界前沿的 Agent 评测论文与 Benchmark；
 - 🛠️ 贡献新的 Metric 评测算法与实战代码；
-- 📝 优化中英文文档与面试题库。
+- 📝 优化中英文文档与前沿案例分析。
 
 ---
 

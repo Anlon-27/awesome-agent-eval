@@ -50,8 +50,8 @@ graph TD
         D9 --> D10["10. Evaluation Platforms (OpenCompass/LM-Eval) & Platform Architecture"]
     end
 
-    subgraph STAGE5["Stage 5: Interview Mastery"]
-        D10 --> D11["11. 23 Comprehensive Interview Flashcards & Standard Answers"]
+    subgraph STAGE5["Stage 5: Deep-Dive FAQs & Best Practices"]
+        D10 --> D11["11. 23 In-Depth Engineering FAQs & Anti-Pattern Solutions"]
     end
 ```
 
@@ -116,7 +116,7 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 - [**08. Autonomous Coding Agents**](./docs/08-autonomous-coding-agents.md): Deep dive into OpenHands and SWE-Agent ACI architectures.
 - [**09. Release Gates & Observability**](./docs/09-release-and-ops.md): 5 release gates, canary deployments, and data flywheel.
 - [**10. Evaluation Platforms & Architecture**](./docs/10-awesome-tools-and-frameworks.md): OpenCompass, LM-Evaluation-Harness, and 5-layer platform architecture.
-- [**11. 23 Interview Flashcards**](./docs/11-interview-cards.md): High-frequency interview Q&A.
+- [**11. Engineering FAQs & Best Practices**](./docs/11-faqs-and-best-practices.md): 23 in-depth engineering solutions and anti-pattern guides.
 
 ---
 
