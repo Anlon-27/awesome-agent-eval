@@ -1,14 +1,10 @@
 [
   {
-    "sample_id": "RAG-SAMPLE-001",
-    "question": "MotoTest 测试平台最多支持同时管理多少台无人机？",
+    "id": "rag_case_001",
+    "question": "Agentic Eval 评测平台支持哪些核心评测基准？",
     "retrieved_contexts": [
-      "MotoTest 是基于 Flask 与 SocketIO 搭建的分布式无人机自动化测试管理平台，支持 40+ 台无人机的设备监控、任务调度与日志解析。"
+      "Agentic Eval 是分布式智能体全生命周期评测平台，全面支持 SWE-bench、OSWorld、TAU-bench 与 BFCL 等 10+ 核心评测基准，支持自定义量规与沙箱隔离执行。"
     ],
-    "ground_truth": "MotoTest 平台最多支持同时管理 40+ 台无人机设备。",
-    "expected_metrics": {
-      "faithfulness_min": 1.0,
-      "context_precision_min": 1.0
-    }
+    "ground_truth": "Agentic Eval 平台支持 SWE-bench、OSWorld、TAU-bench 和 BFCL 等 10+ 核心基准。"
   }
 ]

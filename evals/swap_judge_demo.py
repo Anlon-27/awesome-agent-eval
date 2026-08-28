@@ -9,10 +9,10 @@ from typing import Tuple, Optional
 def mock_llm_judge(candidate_a: str, candidate_b: str) -> str:
     """
     Mock LLM Judge. Returns 'A' if candidate_a is strictly preferred, 'B' otherwise.
-    Demonstrates position-sensitive evaluation.
+    Demonstrates position-sensitive evaluation (concise factual answer wins).
     """
     # A concise and factual answer wins
-    if len(candidate_a) < len(candidate_b) and "40+" in candidate_a:
+    if len(candidate_a) < len(candidate_b) and "SWE-bench" in candidate_a:
         return "A"
     return "B"
 
@@ -40,8 +40,8 @@ def evaluate_with_position_swap(model_out_1: str, model_out_2: str) -> str:
 
 
 def test_swap_judge():
-    out1 = "MotoTest 支持 40+ 台无人机管理。"
-    out2 = "MotoTest 是一个非常强大且复杂的分布式自动化测试系统，不仅能管理许多无人机，还能跑很多自动化脚本。"
+    out1 = "AgenticEval 原生支持 SWE-bench 代码修复基准。"
+    out2 = "AgenticEval 是一个非常强大且复杂的智能体系统，不仅能做很多评测任务，还能生成很多自动化报告。"
 
     verdict = evaluate_with_position_swap(out1, out2)
     assert verdict == "MODEL_1_WINS", f"Expected MODEL_1_WINS, got {verdict}"

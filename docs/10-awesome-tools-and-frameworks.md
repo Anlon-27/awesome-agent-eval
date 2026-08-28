@@ -110,8 +110,8 @@ class UniversalMetricEngine:
 
 if __name__ == "__main__":
     engine = UniversalMetricEngine()
-    preds = ["MotoTest 平台管理 40+ 台无人机设备。"]
-    refs = ["MotoTest 是一个管理超过 40 台无人机的自动化测试系统。"]
+    preds = ["Awesome Agent Eval 覆盖 10+ 个主流评测基准。"]
+    refs = ["Awesome Agent Eval 是一个覆盖超过 10 个主流评测基准的评测体系。"]
 
     scores = engine.compute_all_metrics(preds, refs)
     print("评测引擎计算结果：", scores)

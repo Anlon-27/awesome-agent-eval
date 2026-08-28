@@ -35,7 +35,7 @@ class ContextPrecisionMetric:
 
         # Check keyword presence in top chunk
         top_chunk = contexts[0]
-        keywords = ["40+", "无人机", "MotoTest"]
+        keywords = ["SWE-bench", "OSWorld", "AgenticEval"]
         hits = sum(1 for kw in keywords if kw in top_chunk)
         self.score = hits / len(keywords)
         self.reason = f"Hit {hits}/{len(keywords)} essential anchor keywords."
@@ -59,13 +59,13 @@ class FaithfulnessMetric:
         contexts = " ".join(test_case.retrieval_context or [])
         output = test_case.actual_output
 
-        # Hallucination check (e.g. if answer mentions 100 instead of 40+)
-        if "100" in output and "100" not in contexts:
+        # Hallucination check (e.g. if answer mentions hallucinated benchmarks not in context)
+        if "FakeBench" in output and "FakeBench" not in contexts:
             self.score = 0.0
-            self.reason = "Hallucination detected: Output claims 100 which is not in context."
+            self.reason = "Hallucination detected: Output claims FakeBench which is not in context."
             return self.score
 
-        if "40+" in output:
+        if "SWE-bench" in output and "OSWorld" in output:
             self.score = 1.0
             self.reason = "Output is strictly grounded in retrieved evidence."
             return self.score
@@ -80,11 +80,11 @@ class FaithfulnessMetric:
 
 def test_rag_two_stage_pipeline():
     test_case = RAGTestCase(
-        input="MotoTest 平台最多支持多少台无人机？",
-        actual_output="MotoTest 平台支持同时管理 40+ 台无人机进行分布式自动化测试。",
-        expected_output="MotoTest 平台支持 40+ 台无人机。",
+        input="AgenticEval 评测平台支持哪些核心基准？",
+        actual_output="AgenticEval 平台支持 SWE-bench 与 OSWorld 等权威评测基准。",
+        expected_output="AgenticEval 平台支持 SWE-bench 和 OSWorld。",
         retrieval_context=[
-            "MotoTest 是基于 Flask 与 SocketIO 的分布式平台，管理 40+ 台无人机设备并实现压测可视化。"
+            "AgenticEval 是全生命周期评测系统，原生支持 SWE-bench、OSWorld 与 TAU-bench 等评测环境。"
         ],
     )
 
