@@ -19,11 +19,11 @@
 
 As Large Language Models evolve from simple single-turn chatbots into autonomous **AI Agents** equipped with multi-step planning, tool calling, multi-turn interaction, and multi-agent coordination, traditional software assertions and basic Q&A evaluation metrics fall short.
 
-**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**.
+**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, spotlighting industry breakthroughs such as the **Meituan LongCat series, Berkeley BFCL, and SWE-bench**.
 
 ---
 
-## 🗺️ Evaluation Landscape
+## 🧭 Evaluation Landscape
 
 ```mermaid
 graph TD
@@ -35,6 +35,18 @@ graph TD
 
 ---
 
+## 🐱 Spotlight: Meituan LongCat Research Series
+
+We provide in-depth analysis and tracking of the Meituan LongCat team's frontier research:
+
+| Project / Paper | Category | Core Contribution & Eval Significance | Links |
+| :--- | :---: | :--- | :--- |
+| **VitaBench** | Benchmark | 3D POMDP task complexity modeling, 66-tool dependency graph, and $\text{Pass}^4$ stress testing | [Deep Dive](./docs/07-case-studies.md) |
+| **LongCat-Next** | Paper | *Lexicalizing Modalities as Discrete Tokens*: Native unified multimodal discrete autoregression | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub](https://github.com/meituan-longcat/LongCat-Next) |
+| **LongCat-Flash** | Tech Report | Ultra-low latency online inference architecture, MoE routing, and long-context KV compression | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
+
+---
+
 ## 📚 Table of Contents
 
 - [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md): Solving non-determinism, invisible processes, benchmark contamination, and judge biases.
@@ -43,7 +55,7 @@ graph TD
 - [**04. Component Evaluation**](./docs/04-component-eval.md): RAG precision/recall/faithfulness, tool hallucination defense, planning reflection errors.
 - [**05. System Integration**](./docs/05-system-integration.md): 5-tier trajectory matching, dynamic multi-turn user simulation, and multi-agent ablation studies.
 - [**06. Release Gates & Observability**](./docs/06-release-and-ops.md): 5 release gates, canary deployments, and data flywheel.
-- [**07. Industry Case Studies**](./docs/07-case-studies.md): Meituan VitaBench ($\text{Pass}^4$), BFCL, and SWE-bench.
+- [**07. Industry Case Studies**](./docs/07-case-studies.md): Meituan LongCat Series (VitaBench / Next / Flash), BFCL, and SWE-bench.
 - [**08. 23 Interview Flashcards**](./docs/08-interview-cards.md): High-frequency interview Q&A.
 
 ---
@@ -52,23 +64,23 @@ graph TD
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/your-username/awesome-agent-eval.git
+git clone https://github.com/Anlon-27/awesome-agent-eval.git
 cd awesome-agent-eval
 pip install -r requirements.txt
 ```
 
-### 2. Run Ready-to-use Evals with Pytest
+### 2. Run Ready-to-use Evals
 ```bash
-# Tool calling & negative hallucination test
-pytest evals/tool_eval_demo.py -v -s
+# 1. Tool calling & negative hallucination test
+python evals/tool_eval_demo.py
 
-# RAG two-stage precision & faithfulness test
-pytest evals/rag_eval_demo.py -v -s
+# 2. RAG two-stage precision & faithfulness test
+python evals/rag_eval_demo.py
 
-# Dynamic User Simulator with goal shifts
+# 3. Dynamic User Simulator with goal shifts
 python evals/user_simulator_demo.py
 
-# Position-Swap debiased LLM judge
+# 4. Position-Swap debiased LLM judge
 python evals/swap_judge_demo.py
 ```
 

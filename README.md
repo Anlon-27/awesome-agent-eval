@@ -19,7 +19,7 @@
 
 随着大模型从单轮对话演进为具备“自主规划、工具调用、多轮交互与多智能体协作”的 **AI Agent**，传统的软件测试与简单的问答评测已经完全失效。
 
-**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的评测体系与实战框架**，解决 Agent 落地中“评不准、看不清、难复现、无闭环”的核心痛点。
+**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的评测体系与实战框架**，并深度收录工业界前沿标杆（如 **美团龙猫 LongCat 系列、Berkeley BFCL、SWE-bench** 等），解决 Agent 落地中“评不准、看不清、难复现、无闭环”的核心痛点。
 
 ---
 
@@ -35,6 +35,18 @@ graph TD
 
 ---
 
+## 🐱 前沿聚焦：美团龙猫 (Meituan LongCat) 系列研究
+
+本项目深度拆解并追踪了美团龙猫团队在 Agent 评测与前沿多模态架构的标杆成果：
+
+| 研究成果 | 类型 | 核心创新点 / 评测意义 | 链接 |
+| :--- | :---: | :--- | :--- |
+| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-case-studies.md) |
+| **LongCat-Next** | 顶会论文 | *Lexicalizing Modalities as Discrete Tokens*：原生统一离散多模态自回归架构 | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
+| **LongCat-Flash** | 技术报告 | 高并发实时业务极致低时延推理、MoE 稀疏优化与长上下文 KV 压缩 | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
+
+---
+
 ## 📚 体系化深度指南 (Comprehensive Guides)
 
 | 章节 | 核心主题 | 关键要点 |
@@ -45,7 +57,7 @@ graph TD
 | [**04. 核心零件评测**](./docs/04-component-eval.md) | Prompt / RAG / 工具 / 规划单体验证 | RAG 忠实度、Tool Calling 防幻觉反例、规划反思错误 |
 | [**05. 系统级集成**](./docs/05-system-integration.md) | 轨迹比对、多轮对抗与团队消融 | 5 档轨迹严格度、动态 User Simulator、多 Agent 消融实验 |
 | [**06. 发布与运维**](./docs/06-release-and-ops.md) | 5 大发布闸门红线与线上可观测性 | 质量/时延/安全红线、灰度放量、数据飞轮回归闭环 |
-| [**07. 前沿案例**](./docs/07-case-studies.md) | 工业界评测落地最佳实践 | 美团 VitaBench ($\text{Pass}^4$)、BFCL、SWE-bench |
+| [**07. 前沿案例**](./docs/07-case-studies.md) | 工业界评测落地最佳实践 | 美团 LongCat 全家桶 (VitaBench / Next / Flash)、BFCL、SWE-bench |
 | [**08. 高频面试题**](./docs/08-interview-cards.md) | 23 道 Agent 评测核心面试题与答题卡片 | 涵盖概念、方法、指标、工程落地全景解析 |
 
 ---
@@ -54,30 +66,24 @@ graph TD
 
 ### 1. 克隆代码仓库并安装依赖
 ```bash
-git clone https://github.com/你的用户名/awesome-agent-eval.git
+git clone https://github.com/Anlon-27/awesome-agent-eval.git
 cd awesome-agent-eval
 pip install -r requirements.txt
 ```
 
-### 2. 运行开箱即用的评测用例 (基于 Pytest & DeepEval)
+### 2. 运行开箱即用的评测用例 (基于 Pytest & Python)
 
-#### 运行工具调用精准度与防幻觉测试：
 ```bash
-pytest evals/tool_eval_demo.py -v -s
-```
+# 1. 运行工具调用精准度与防幻觉测试
+python evals/tool_eval_demo.py
 
-#### 运行 RAG 检索与生成双段测试：
-```bash
-pytest evals/rag_eval_demo.py -v -s
-```
+# 2. 运行 RAG 检索段 Context Precision 与生成段 Faithfulness 测试
+python evals/rag_eval_demo.py
 
-#### 运行多轮动态 User Simulator 交互测试：
-```bash
+# 3. 运行多轮动态 User Simulator 交互测试
 python evals/user_simulator_demo.py
-```
 
-#### 运行消除首位偏差的双盲裁判测试 (Position-Swap Judge)：
-```bash
+# 4. 运行消除首位偏差的双盲裁判测试 (Position-Swap Judge)
 python evals/swap_judge_demo.py
 ```
 
