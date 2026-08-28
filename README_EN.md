@@ -25,63 +25,6 @@ This project covers **core NLP/LLM metrics (Accuracy, BLEU, BERTScore, NDCG)**, 
 
 ---
 
-## 🧭 5-Stage Progressive Learning Roadmap
-
-```mermaid
-flowchart TD
-    classDef stageBox fill:#f8fafc,stroke:#3b82f6,stroke-width:2px,rx:8px,ry:8px;
-    classDef stepNode fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#0f172a;
-
-    subgraph S1["📘 Stage 1: Foundations & Core Metrics"]
-        direction TB
-        N1["01. 5 Core Dilemmas & EDD"]
-        N2["02. Core Metrics: Accuracy / BLEU / BERTScore / LLM Judge"]
-        N1 --> N2
-    end
-    class S1 stageBox;
-    class N1,N2 stepNode;
-
-    subgraph S2["⚙️ Stage 2: Model Selection & Component Evals"]
-        direction TB
-        N3["03. Model Selection, Capability Profiling & TCO Tiering"]
-        N4["04. 4 Component Evals (Prompt / RAG / Tools / Planning)"]
-        N5["05. 4 Core Engineering Dimensions (RAG / Perturbation / Schema / Fallbacks)"]
-        N3 --> N4 --> N5
-    end
-    class S2 stageBox;
-    class N3,N4,N5 stepNode;
-
-    subgraph S3["🚀 Stage 3: System Integration & Frontier Benchmarks"]
-        direction TB
-        N6["06. System Integration (5-Tier Trajectory / User Simulator / Multi-Agent Ablation)"]
-        N7["07. Global Benchmark Schemas (SWE-bench / OSWorld / Terminal / VitaBench)"]
-        N8["08. Autonomous Coding Agents (OpenHands & SWE-Agent ACI Architectures)"]
-        N6 --> N7 --> N8
-    end
-    class S3 stageBox;
-    class N6,N7,N8 stepNode;
-
-    subgraph S4["🛡️ Stage 4: Production Platforms & Ecosystem"]
-        direction TB
-        N9["09. 5 Release Quality Gates, A/B Testing & Data Flywheel"]
-        N10["10. Evaluation Platforms (OpenCompass/LM-Eval) & Platform Architecture"]
-        N9 --> N10
-    end
-    class S4 stageBox;
-    class N9,N10 stepNode;
-
-    subgraph S5["💡 Stage 5: Deep-Dive FAQs & Best Practices"]
-        direction TB
-        N11["11. 23 In-Depth Engineering FAQs & Anti-Pattern Solutions"]
-    end
-    class S5 stageBox;
-    class N11 stepNode;
-
-    S1 ==> S2 ==> S3 ==> S4 ==> S5
-```
-
----
-
 ## 🧭 Evaluation Landscape
 
 ```mermaid
@@ -114,9 +57,11 @@ flowchart TD
 
 ## 📚 Table of Contents
 
+> 💡 **Learning Roadmap**: All chapters follow a 5-stage progressive structure from **Foundations ➔ Components ➔ Quality ➔ Systems ➔ Production Ops & Best Practices**:
+
 | Section | Core Highlights & Practical Takeaways |
 | :--- | :--- |
-| [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md) | Solving non-determinism, invisible processes, and Evaluation-Driven Development (EDD). |
+| [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md) | Solving non-determinism, invisible processes, and 5-stage learning roadmap. |
 | [**02. Core Metrics & Weapons**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG code metrics, Position-Swap, and LLM-as-a-Judge rubrics. |
 | [**03. Model Selection & TCO**](./docs/03-model-selection.md) | Capability profiling and hierarchical model routing for cost reduction. |
 | [**04. Component Evaluation**](./docs/04-component-eval.md) | Prompt variants, RAG 2-stage eval, tool calling 4-check, and planning reflection errors. |

@@ -25,63 +25,6 @@
 
 ---
 
-## 🧭 5 阶渐进式学习路线图 (Progressive Learning Roadmap)
-
-```mermaid
-flowchart TD
-    classDef stageBox fill:#f8fafc,stroke:#3b82f6,stroke-width:2px,rx:8px,ry:8px;
-    classDef stepNode fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#0f172a;
-
-    subgraph S1["📘 阶段一：认知建立与度量底座 (Foundations)"]
-        direction TB
-        N1["01. Agent 评测 5 大困境与评估驱动开发 (EDD)"]
-        N2["02. 核心指标与武器库: Accuracy / BLEU / BERTScore / LLM Judge"]
-        N1 --> N2
-    end
-    class S1 stageBox;
-    class N1,N2 stepNode;
-
-    subgraph S2["⚙️ 阶段二：选型与零件单体测试 (Components)"]
-        direction TB
-        N3["03. 基模选型四步法、能力画像与 TCO 架构降本"]
-        N4["04. 四大核心零件单体评测 (Prompt / RAG / 工具 / 规划)"]
-        N5["05. 四大核心工程质量维度 (RAG 效果 / 扰动稳定性 / 返回质量 / 异常兜底)"]
-        N3 --> N4 --> N5
-    end
-    class S2 stageBox;
-    class N3,N4,N5 stepNode;
-
-    subgraph S3["🚀 阶段三：系统集成与前沿基准 (System & Benchmarks)"]
-        direction TB
-        N6["06. 系统级集成评测 (5 档轨迹比对 / 动态 User Simulator / 多 Agent 消融)"]
-        N7["07. 全球权威基准拆解与 JSON Schemas (SWE-bench/OSWorld/Terminal/VitaBench)"]
-        N8["08. 自主编程智能体专题 (OpenHands 与 SWE-Agent 架构与 ACI 实战)"]
-        N6 --> N7 --> N8
-    end
-    class S3 stageBox;
-    class N6,N7,N8 stepNode;
-
-    subgraph S4["🛡️ 阶段四：发布闸门与评测平台 (Production & Platforms)"]
-        direction TB
-        N9["09. 5 大发布闸门红线、线上 A/B 灰度与数据飞轮"]
-        N10["10. 全球主流评测框架 (OpenCompass/LM-Eval) 与评测平台 5 层架构实战"]
-        N9 --> N10
-    end
-    class S4 stageBox;
-    class N9,N10 stepNode;
-
-    subgraph S5["💡 阶段五：疑难解答与最佳实践 (FAQs & Best Practices)"]
-        direction TB
-        N11["11. 核心疑难问题深度解析与工业界避坑最佳实践 FAQ"]
-    end
-    class S5 stageBox;
-    class N11 stepNode;
-
-    S1 ==> S2 ==> S3 ==> S4 ==> S5
-```
-
----
-
 ## 🧭 Agent 评测全生命周期架构图 (Evaluation Landscape)
 
 ```mermaid
@@ -114,9 +57,11 @@ flowchart TD
 
 ## 📚 体系化深度指南目录 (Table of Contents)
 
+> 💡 **学习建议**：全套指南按照 **认知建立 ➔ 选型单体 ➔ 工程质量 ➔ 系统集成与基准 ➔ 生产运维与最佳实践** 的 5 阶渐进式路线编排，零基础可依序阅读：
+
 | 章节导航 | 核心主题与深度实战要点 |
 | :--- | :--- |
-| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境与评估驱动开发（EDD）的核心思想与生命周期 |
+| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境与评估驱动开发（EDD）的核心思想与 5 阶学习路线图 |
 | [**02. 指标与武器库**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG 代码度量、双盲消偏与 Judge 量规 |
 | [**03. 基模选型与 TCO**](./docs/03-model-selection.md) | 场景反推能力画像、私有集双盲测试与旗舰/轻量模型分流架构降本 |
 | [**04. 核心零件单体**](./docs/04-component-eval.md) | Prompt 变体、RAG 双段法、Tool Calling 4 项核对与防幻觉反例注入 |
@@ -137,7 +82,7 @@ flowchart TD
 | **Accuracy (准确率)** | 预测正确的样本比例 ($\frac{TP+TN}{Total}$) | 单选/多选题 (MMLU)、分类任务 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **Exact Match (EM)** | 100% 严格一致（可配合标点/空格归一化） | 工具函数名、槽位抽取、状态码 | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **BLEU (1~4)** | Modified n-gram 匹配精确率 + 简短惩罚 (BP) | 机器翻译、代码生成 (HumanEval) | [`nltk`](https://github.com/nltk/nltk) / [`sacrebleu`](https://github.com/mjpost/sacrebleu) |
-| **ROUGE (1/2/L)** | 基于最长公共子序列（LCS）的召回率导向度量 | 文本摘要、文档提炼、新闻总结 | [`google-research/rouge`](https://github.com/google-research/google-research) |
+| **ROUGE (1/2/L)** | 基于最长公共子序列（LCS）的召回率导向度量 | 文本摘要、文档提炼、新闻总结 | [`google-research/rouge`](https://google-research/rouge) |
 | **BERTScore** | 预训练模型 Contextual Embedding 最大余弦相似度 | 开放式问答、释义匹配 (**攻克同义词盲区**) | [`Tiiiger/bert_score`](https://github.com/Tiiiger/bert_score) *(ICLR 2020)* |
 | **NDCG@k / MRR** | 归一化折损累计增益与平均倒数排名 | RAG 知识检索切片排序质量评估 | [`ranx`](https://github.com/AmenDa/ranx) / [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) |
 
