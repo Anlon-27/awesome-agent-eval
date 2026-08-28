@@ -19,19 +19,64 @@
 
 As Large Language Models evolve from simple single-turn chatbots into autonomous **AI Agents** equipped with multi-step planning, tool calling, multi-turn interaction, and multi-agent coordination, traditional software assertions and basic Q&A evaluation metrics fall short.
 
-**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, deeply covering **RAG retrieval effectiveness, prompt perturbation robustness, JSON schema integrity, and exception fallback guardrails**.
+**Awesome Agent Eval** provides an **industry-grade, end-to-end, zero-to-hero evaluation curriculum and engineering framework**.
+
+This project provides not only methodologies and benchmark designs, but also **ready-to-run automation test scripts, standard JSON schemas, and deep dives into cutting-edge benchmarks**.
 
 ---
 
-## 🧭 Evaluation Landscape
+## 🧭 5-Stage Progressive Learning Roadmap
 
 ```mermaid
 graph TD
-    A["Evaluation-Driven Development (EDD)"] --> B["1. Model Selection<br/>• Reverse-engineering capability profiles<br/>• Hard constraints & TCO tiering<br/>• Private dataset double-blind testing"]
-    A --> C["2. Component Evaluation<br/>• Prompt perturbation robustness<br/>• RAG 2-stage (Context Precision/Recall vs Faithfulness)<br/>• Tool Calling 4-check & negative cases<br/>• Planning 3-failure-mode attribution"]
-    A --> D["3. System Integration<br/>• Final outcomes (Pass@k vs Pass^k)<br/>• Trajectory matching (5 strictness tiers)<br/>• Dynamic User Simulator + Hidden Goal Cards<br/>• Multi-agent coordination & ablation"]
-    A --> E["4. Release & Operations<br/>• 5 release quality gates (Quality/Cost/Security)<br/>• Production A/B testing (real traffic)<br/>• Graceful fallback (API 500 error shielding)<br/>• Bad-case regression flywheel"]
+    subgraph STAGE1["Stage 1: Foundations & Weapons"]
+        D1["01. 5 Core Dilemmas & EDD"] --> D2["02. Universal Weapons: Code Assertions / Swap / Judge"]
+    end
+
+    subgraph STAGE2["Stage 2: Model Selection & Component Evals"]
+        D2 --> D3["03. Model Selection, Capability Profiling & TCO Tiering"]
+        D3 --> D4["04. 4 Component Evals (Prompt / RAG / Tools / Planning)"]
+        D4 --> D5["05. 4 Core Engineering Dimensions (RAG / Perturbation / Schema / Fallbacks)"]
+    end
+
+    subgraph STAGE3["Stage 3: System Integration & Frontier Benchmarks"]
+        D5 --> D6["06. System Integration (5-Tier Trajectory / User Simulator / Multi-Agent Ablation)"]
+        D6 --> D7["07. Global Benchmark Schemas (SWE-bench / OSWorld / Terminal / VitaBench)"]
+        D7 --> D8["08. Autonomous Coding Agents (OpenHands & SWE-Agent ACI Architectures)"]
+    end
+
+    subgraph STAGE4["Stage 4: Production Gates & Observability"]
+        D8 --> D9["09. 5 Release Quality Gates, A/B Testing & Data Flywheel"]
+        D9 --> D10["10. Global Ecosystem Radar (18 Top Toolkits & Benchmarks)"]
+    end
+
+    subgraph STAGE5["Stage 5: Interview Mastery"]
+        D10 --> D11["11. 23 Comprehensive Interview Flashcards & Standard Answers"]
+    end
 ```
+
+---
+
+## 📚 Table of Contents
+
+### 📌 Section 1: Foundations & Methodology
+- [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md): Non-determinism, failure mode recognition, and Evaluation-Driven Development (EDD).
+- [**02. Universal Weapons**](./docs/02-general-weapons.md): Exact Match, Position-Swap comparative evaluation, and LLM-as-a-Judge rubrics.
+
+### 📌 Section 2: Selection, Components & Quality Dimensions
+- [**03. Model Selection & TCO**](./docs/03-model-selection.md): Capability profiling and hierarchical model routing for cost reduction.
+- [**04. Component Evaluation**](./docs/04-component-eval.md): Prompt variants, RAG 2-stage eval, tool calling 4-check, and planning reflection errors.
+- [**05. 4 Core Engineering Dimensions**](./docs/05-core-quality-dimensions.md): RAG effectiveness, prompt perturbation robustness, JSON schema integrity, and API 500 fallbacks.
+
+### 📌 Section 3: System Integration, Benchmarks & Coding Agents
+- [**06. System Integration**](./docs/06-system-integration.md): 5-tier trajectory matching, dynamic user simulator (goal-shift gaming), and multi-agent ablation.
+- [**07. Case Studies & JSON Schemas**](./docs/07-benchmark-schemas-and-cases.md): Standard schemas and rules for SWE-bench, OSWorld, Terminal-Bench, VitaBench, and TAU-bench.
+- [**08. Autonomous Coding Agents**](./docs/08-autonomous-coding-agents.md): Deep dive into OpenHands (EventStream/CodeAct) and SWE-Agent (ACI interface).
+
+### 📌 Section 4: Production Ops, Tools Radar & Interview Mastery
+- [**09. Release Gates & Observability**](./docs/09-release-and-ops.md): 5 release quality gates, canary deployments, observability triad, and data flywheel.
+- [**10. Global Ecosystem Radar**](./docs/10-awesome-tools-and-frameworks.md): Selection matrix of 18 top toolkits (DeepEval, Ragas, Promptfoo, Inspect AI).
+- [**11. 23 Interview Flashcards**](./docs/11-interview-cards.md): High-frequency interview Q&A with standard high-scoring answers.
 
 ---
 
@@ -64,25 +109,9 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 
 | Project / Paper | Category | Core Contribution & Eval Significance | Links |
 | :--- | :---: | :--- | :--- |
-| **VitaBench** | Benchmark | 3D POMDP task complexity modeling, 66-tool dependency graph, and $\text{Pass}^4$ stress testing | [Deep Dive](./docs/07-case-studies.md#四-美团-vitabench生活服务复杂交互评测基准) |
-| **LongCat-Next** | Paper | *Lexicalizing Modalities as Discrete Tokens*: Native unified multimodal discrete autoregression | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub](https://github.com/meituan-longcat/LongCat-Next) |
+| **VitaBench** | Benchmark | 3D POMDP task complexity modeling, 66-tool dependency graph, and $\text{Pass}^4$ stress testing | [Deep Dive](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
+| **LongCat-Next** | Paper | *Lexicalizing Modalities as Discrete Tokens*: Native unified multimodal discrete autoregression | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | Tech Report | Ultra-low latency online inference architecture, MoE routing, and long-context KV compression | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
-
----
-
-## 📚 Table of Contents
-
-- [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md): Solving non-determinism, invisible processes, benchmark contamination, and judge biases.
-- [**02. Universal Weapons**](./docs/02-general-weapons.md): Code metrics, Comparative evaluation (Position-Swap), and LLM-as-a-Judge rubrics.
-- [**03. Model Selection & TCO**](./docs/03-model-selection.md): Capability profiling and hierarchical model routing.
-- [**04. Component Evaluation**](./docs/04-component-eval.md): RAG precision/recall/faithfulness, tool hallucination defense, planning reflection errors.
-- [**05. System Integration**](./docs/05-system-integration.md): 5-tier trajectory matching, dynamic multi-turn user simulation, and multi-agent ablation studies.
-- [**06. Release Gates & Observability**](./docs/06-release-and-ops.md): 5 release gates, canary deployments, and data flywheel.
-- [**07. Case Studies & Schemas**](./docs/07-case-studies.md): SWE-bench, OSWorld, Terminal-Bench, Meituan LongCat, TAU-bench, and GAIA.
-- [**08. 23 Interview Flashcards**](./docs/08-interview-cards.md): High-frequency interview Q&A.
-- [**09. Global Ecosystem Radar**](./docs/09-awesome-tools-and-frameworks.md): 18 top toolkits & platform selection matrix.
-- [**10. Autonomous Coding Agents**](./docs/10-autonomous-coding-agents.md): Deep dive into OpenHands and SWE-Agent ACI architectures.
-- [**11. 4 Core Engineering Dimensions**](./docs/11-core-quality-dimensions.md): RAG effectiveness, prompt perturbation, schema integrity & API 500 fallback.
 
 ---
 

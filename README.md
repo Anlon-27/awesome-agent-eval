@@ -19,19 +19,64 @@
 
 随着大语言模型从单轮问答演进为具备“自主规划、工具调用、多轮交互、多智能体协作”的 **AI Agent**，传统的确定性软件测试与简单的问答评测已经完全失效。
 
-**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的权威评测体系与实操框架**。深度覆盖 **RAG 检索效果诊断、提示词扰动鲁棒性、模型结构化返回质量（JSON Schema）与生产级异常兜底容错**，并无缝融合全球前沿框架（**DeepEval、Ragas、OpenHands、SWE-agent**）与权威基准（**SWE-bench、OSWorld、Terminal-Bench、美团龙猫 VitaBench、TAU-bench**）。
+**Awesome Agent Eval** 旨在构建一个**工业级、端到端、零基础到精通的 AI Agent 评测体系与实操框架**。
+
+本项目不仅覆盖方法论与评测设计，更提供**开箱即用的自动化测试代码、工业级数据结构（JSON Schemas）与前沿基准深度剖析**，帮助测试开发工程师、算法工程师与架构师系统化掌握 Agent 质量保障体系。
 
 ---
 
-## 🧭 Agent 评测全生命周期架构图 (Evaluation Landscape)
+## 🧭 5 阶渐进式学习路线图 (Progressive Learning Roadmap)
 
 ```mermaid
 graph TD
-    A["Agent 全生命周期评估驱动开发 (EDD)"] --> B["1. 选型期 (Model Selection)<br/>• 场景反推能力画像与权重配比<br/>• 硬门槛初筛 + TCO 架构分层<br/>• 私有业务数据集双盲测试"]
-    A --> C["2. 组件评测 (Component Eval)<br/>• 提示词扰动稳定性与鲁棒性<br/>• RAG 双段法 (Context Precision/Recall vs 忠实度)<br/>• Tool Calling 4 项核对 + 防幻觉反例<br/>• Planning 3 大典型失败模式归因"]
-    A --> D["3. 系统集成 (System Eval)<br/>• 任务终态 (Pass@k vs Pass^k)<br/>• 轨迹评测 (5 档严格度比对)<br/>• 动态 User Simulator + 隐藏目标卡<br/>• 多 Agent 协作评测与消融实验"]
-    A --> E["4. 发布与运维 (Release & Ops)<br/>• 5 大发布闸门红线 (质量/成本/安全)<br/>• 线上 A/B 测试 (真实业务流量裁决)<br/>• 异常优雅降级 (API 500 兜底与防堆栈泄露)<br/>• Bad Case 回灌离线基准集形成数据飞轮"]
+    subgraph STAGE1["第一阶段：认知建立与武器库 (Foundations)"]
+        D1["01. Agent 评测 5 大困境与评估驱动开发 (EDD)"] --> D2["02. 三大通用武器: 代码断言 / Swap 比较 / LLM-as-a-Judge"]
+    end
+
+    subgraph STAGE2["第二阶段：选型与零件单体测试 (Components)"]
+        D2 --> D3["03. 基模选型四步法、能力画像与 TCO 架构降本"]
+        D3 --> D4["04. 四大核心零件单体评测 (Prompt / RAG / 工具 / 规划)"]
+        D4 --> D5["05. 四大核心工程质量维度 (RAG 效果 / 扰动稳定性 / 返回质量 / 异常兜底)"]
+    end
+
+    subgraph STAGE3["第三阶段：系统集成与前沿基准 (System & Benchmarks)"]
+        D5 --> D6["06. 系统级集成评测 (5 档轨迹比对 / 动态 User Simulator / 多 Agent 消融)"]
+        D6 --> D7["07. 全球权威基准拆解与 JSON Schemas (SWE-bench/OSWorld/Terminal/VitaBench)"]
+        D7 --> D8["08. 自主编程智能体专题 (OpenHands 与 SWE-Agent 架构与 ACI 实战)"]
+    end
+
+    subgraph STAGE4["第四阶段：发布闸门与生产可观测 (Production & Ops)"]
+        D8 --> D9["09. 5 大发布闸门红线、线上 A/B 灰度与数据飞轮"]
+        D9 --> D10["10. 全球 18 大 Agent 评测工具与框架生态雷达 (选型矩阵)"]
+    end
+
+    subgraph STAGE5["第五阶段：面试速通与实战题库 (Interview Mastery)"]
+        D10 --> D11["11. 23 道 Agent 评测核心面试题与答题卡片 (全景背诵版)"]
+    end
 ```
+
+---
+
+## 📚 体系化深度指南目录 (Table of Contents)
+
+### 📌 第一篇章：认知与方法论底座
+* [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md)：从非确定性、失败模式识别到评估驱动开发（EDD）的核心思想；
+* [**02. 通用武器库**](./docs/02-general-weapons.md)：精确匹配 (EM/F1)、比较评估 (Position-Swap 双盲) 与 LLM-as-a-Judge (Rubric 消除偏见)。
+
+### 📌 第二篇章：选型、单体与工程质量
+* [**03. 基模选型与 TCO**](./docs/03-model-selection.md)：场景反推能力画像、硬门槛初筛与旗舰/轻量模型分流降本；
+* [**04. 核心零件单体评测**](./docs/04-component-eval.md)：Prompt 变体、RAG 双段法、Tool Calling 4 项核对与规划反思错误；
+* [**05. 四大工程质量维度**](./docs/05-core-quality-dimensions.md)：RAG 检索效果指标、提示词扰动鲁棒性、JSON Schema 结构合规与 API 500 优雅降级。
+
+### 📌 第三篇章：系统集成、权威基准与自主编程
+* [**06. 系统级集成评测**](./docs/06-system-integration.md)：5 档轨迹严格度比对、动态 User Simulator（中途改口博弈）与多 Agent 协作消融实验；
+* [**07. 权威基准与数据结构**](./docs/07-benchmark-schemas-and-cases.md)：SWE-bench、OSWorld、Terminal-Bench、美团 VitaBench、TAU-bench 标准 JSON Schema 与判分规则；
+* [**08. 自主编程 Agent 专题**](./docs/08-autonomous-coding-agents.md)：OpenHands (EventStream/CodeAct) 与 SWE-Agent (ACI 接口) 架构深度拆解。
+
+### 📌 第四篇章：生产发布、工具雷达与面试通关
+* [**09. 发布闸门与运维监控**](./docs/09-release-and-ops.md)：5 大发布闸门红线、线上 A/B 测试、可观测性三件套与数据飞轮；
+* [**10. 全球生态雷达矩阵**](./docs/10-awesome-tools-and-frameworks.md)：全球 18 大核心评测工具（DeepEval, Ragas, Promptfoo, Inspect AI）对比与测试团队选型路径；
+* [**11. 高频面试题库卡片**](./docs/11-interview-cards.md)：精选 23 道核心面试大题与高分标准背诵卡片。
 
 ---
 
@@ -62,31 +107,22 @@ graph TD
 
 | 研究成果 | 类型 | 核心创新点 / 评测意义 | 链接 |
 | :--- | :---: | :--- | :--- |
-| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-case-studies.md#四-美团-vitabench生活服务复杂交互评测基准) |
+| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
 | **LongCat-Next** | 顶会论文 | *Lexicalizing Modalities as Discrete Tokens*：原生统一离散多模态自回归架构 | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | 技术报告 | 高并发实时业务极致低时延推理、MoE 稀疏优化与长上下文 KV 压缩 | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
 
 ---
 
-## 📚 体系化深度指南 (Comprehensive Guides)
-
-| 章节 | 核心主题 | 关键要点 |
-| :--- | :--- | :--- |
-| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境与评估驱动开发 | 解决非确定性、过程不可见、数据污染与裁判偏见 |
-| [**02. 通用武器库**](./docs/02-general-weapons.md) | 三大通用评测方法与度量衡 | 精确匹配 / 比较评估 (Position Swap) / LLM-as-a-Judge |
-| [**03. 基模选型**](./docs/03-model-selection.md) | 选型四步法与 TCO 架构降本 | 场景反推能力画像、旗舰与轻量模型分流架构 |
-| [**04. 核心零件评测**](./docs/04-component-eval.md) | Prompt / RAG / 工具 / 规划单体验证 | RAG 忠实度、Tool Calling 防幻觉反例、规划反思错误 |
-| [**05. 系统级集成**](./docs/05-system-integration.md) | 轨迹比对、多轮对抗与团队消融 | 5 档轨迹严格度、动态 User Simulator、多 Agent 消融实验 |
-| [**06. 发布与运维**](./docs/06-release-and-ops.md) | 5 大发布闸门红线与线上可观测性 | 质量/时延/安全红线、灰度放量、数据飞轮回归闭环 |
-| [**07. 前沿案例与数据结构**](./docs/07-case-studies.md) | 权威基准深度拆解与 JSON Schemas | SWE-bench、OSWorld、Terminal-Bench、美团 LongCat、TAU-bench |
-| [**08. 高频面试题**](./docs/08-interview-cards.md) | 23 道 Agent 评测核心面试题与答题卡片 | 涵盖概念、方法、指标、工程落地全景解析 |
-| [**09. 生态雷达**](./docs/09-awesome-tools-and-frameworks.md) | 全球 18 大 Agent 评测工具与基准矩阵 | 选型对比表、功能矩阵与测试开发团队最佳落地路径 |
-| [**10. 自主编程 Agent 专题**](./docs/10-autonomous-coding-agents.md) | OpenHands 与 SWE-Agent 架构深度拆解 | ACI 智能体-计算机接口设计、EventStream 与 SWE-bench 实战 |
-| [**11. 四大工程质量维度**](./docs/11-core-quality-dimensions.md) | RAG 效果、提示词鲁棒性、返回质量与异常兜底 | 扰动测试、JSON 结构合规、API 500 优雅降级与熔断防护 |
-
----
-
 ## ⚡ 极速上手：运行自动化评测代码 (Quick Start)
+
+### 1. 克隆代码仓库并安装依赖
+```bash
+git clone https://github.com/Anlon-27/awesome-agent-eval.git
+cd awesome-agent-eval
+pip install -r requirements.txt
+```
+
+### 2. 运行开箱即用的评测用例 (基于 Python & Pytest)
 
 ```bash
 # 1. 运行工具调用精准度与防幻觉测试
