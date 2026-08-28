@@ -25,43 +25,13 @@ This project covers **core NLP/LLM metrics (Accuracy, BLEU, BERTScore, NDCG)**, 
 
 ---
 
-## 🧭 Evaluation Landscape
-
-```mermaid
-flowchart TD
-    classDef mainNode fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e40af,font-weight:bold,rx:6px,ry:6px;
-    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1.5px,color:#1e293b,rx:6px,ry:6px;
-
-    TOP["🎯 Evaluation-Driven Development (EDD) Across Full Lifecycle"]:::mainNode
-
-    subgraph PHASE1["1. Model Selection"]
-        B["• Reverse-engineer capability profile & weights<br/>• Hard constraints screening + TCO tiering<br/>• Private dataset double-blind benchmark"]:::cardStyle
-    end
-
-    subgraph PHASE2["2. Component Testing"]
-        C["• Prompt perturbation robustness testing<br/>• RAG 2-stage (Retrieval vs Generation)<br/>• Tool Calling 4-check & negative cases<br/>• Planning 3 failure modes attribution"]:::cardStyle
-    end
-
-    subgraph PHASE3["3. System Integration"]
-        D["• Outcomes (Pass@k vs Pass^k stress testing)<br/>• 5-tier trajectory matching analysis<br/>• Dynamic User Simulator goal-shift gaming<br/>• Multi-agent coordination ablation studies"]:::cardStyle
-    end
-
-    subgraph PHASE4["4. Release & Operations"]
-        E["• 5 release quality gates (Quality/Cost/Security)<br/>• Production A/B testing (real user traffic)<br/>• Graceful fallback (API 500 shielding)<br/>• Bad-case regression data flywheel"]:::cardStyle
-    end
-
-    TOP --> PHASE1 --> PHASE2 --> PHASE3 --> PHASE4
-```
-
----
-
 ## 📚 Table of Contents
 
 > 💡 **Learning Roadmap**: All chapters follow a 5-stage progressive structure from **Foundations ➔ Components ➔ Quality ➔ Systems ➔ Production Ops & Best Practices**:
 
 | Section | Core Highlights & Practical Takeaways |
 | :--- | :--- |
-| [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md) | Solving non-determinism, invisible processes, and 5-stage learning roadmap. |
+| [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md) | Solving non-determinism, invisible processes, lifecycle architecture, and 5-stage roadmap. |
 | [**02. Core Metrics & Weapons**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG code metrics, Position-Swap, and LLM-as-a-Judge rubrics. |
 | [**03. Model Selection & TCO**](./docs/03-model-selection.md) | Capability profiling and hierarchical model routing for cost reduction. |
 | [**04. Component Evaluation**](./docs/04-component-eval.md) | Prompt variants, RAG 2-stage eval, tool calling 4-check, and planning reflection errors. |

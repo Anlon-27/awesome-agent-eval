@@ -25,43 +25,13 @@
 
 ---
 
-## 🧭 Agent 评测全生命周期架构图 (Evaluation Landscape)
-
-```mermaid
-flowchart TD
-    classDef mainNode fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e40af,font-weight:bold,rx:6px,ry:6px;
-    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1.5px,color:#1e293b,rx:6px,ry:6px;
-
-    TOP["🎯 评估驱动开发 (Evaluation-Driven Development) 贯穿全生命周期"]:::mainNode
-
-    subgraph PHASE1["1. 选型期 (Model Selection)"]
-        B["• 场景反推能力画像与权重配比<br/>• 硬门槛初筛 + TCO 分层降本架构<br/>• 私有业务数据集双盲对比测试"]:::cardStyle
-    end
-
-    subgraph PHASE2["2. 组件单体 (Component Testing)"]
-        C["• 提示词扰动鲁棒性与边界防注入<br/>• RAG 检索段与生成段双段解耦评测<br/>• Tool Calling 4 项核对与防幻觉反例<br/>• Planning 3 大典型失败模式归因"]:::cardStyle
-    end
-
-    subgraph PHASE3["3. 系统集成 (System Integration)"]
-        D["• 任务终态 (Pass@k vs Pass^k 压测)<br/>• 5 档轨迹严格度逐步比对分析<br/>• 动态 User Simulator 隐藏目标卡博弈<br/>• 多 Agent 协作评测与团队消融实验"]:::cardStyle
-    end
-
-    subgraph PHASE4["4. 生产运维 (Release & Operations)"]
-        E["• 5 大发布闸门红线 (质量/成本/安全/可用性)<br/>• 线上 A/B 灰度测试 (真实业务流量裁决)<br/>• 异常优雅降级 (API 500 熔断与防堆栈泄露)<br/>• Bad Case 自动化回灌基准集形成数据飞轮"]:::cardStyle
-    end
-
-    TOP --> PHASE1 --> PHASE2 --> PHASE3 --> PHASE4
-```
-
----
-
 ## 📚 体系化深度指南目录 (Table of Contents)
 
 > 💡 **学习建议**：全套指南按照 **认知建立 ➔ 选型单体 ➔ 工程质量 ➔ 系统集成与基准 ➔ 生产运维与最佳实践** 的 5 阶渐进式路线编排，零基础可依序阅读：
 
 | 章节导航 | 核心主题与深度实战要点 |
 | :--- | :--- |
-| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境与评估驱动开发（EDD）的核心思想与 5 阶学习路线图 |
+| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境、评估驱动开发（EDD）核心思想、生命周期图与 5 阶学习路线图 |
 | [**02. 指标与武器库**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG 代码度量、双盲消偏与 Judge 量规 |
 | [**03. 基模选型与 TCO**](./docs/03-model-selection.md) | 场景反推能力画像、私有集双盲测试与旗舰/轻量模型分流架构降本 |
 | [**04. 核心零件单体**](./docs/04-component-eval.md) | Prompt 变体、RAG 双段法、Tool Calling 4 项核对与防幻觉反例注入 |

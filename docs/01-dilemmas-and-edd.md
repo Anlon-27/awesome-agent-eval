@@ -94,12 +94,34 @@ flowchart LR
 
 ---
 
-## 3. Agent 全生命周期评测主线
+## 3. Agent 全生命周期评测架构 (Evaluation Landscape)
 
-评测不是项目发布前临时抱佛脚的补救措施，而是贯穿产品生命周期的四部曲：
+评测不是项目发布前临时抱佛脚的补救措施，而是贯穿产品生命周期的四大阶段：
 
-```text
-选模型 (选型期) ────> 标记进展 (开发期) ────> 决定上线 (发布期) ────> 生产监控 (运行期)
+```mermaid
+flowchart TD
+    classDef mainNode fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e40af,font-weight:bold,rx:6px,ry:6px;
+    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1.5px,color:#1e293b,rx:6px,ry:6px;
+
+    TOP["🎯 评估驱动开发 (EDD) 贯穿 Agent 全生命周期"]:::mainNode
+
+    subgraph PHASE1["1. 选型期 (Model Selection)"]
+        B["• 场景反推能力画像与权重配比<br/>• 硬门槛初筛 + TCO 分层降本架构<br/>• 私有业务数据集双盲对比测试"]:::cardStyle
+    end
+
+    subgraph PHASE2["2. 组件单体 (Component Testing)"]
+        C["• 提示词扰动鲁棒性与边界防注入<br/>• RAG 检索段与生成段双段解耦评测<br/>• Tool Calling 4 项核对与防幻觉反例<br/>• Planning 3 大典型失败模式归因"]:::cardStyle
+    end
+
+    subgraph PHASE3["3. 系统集成 (System Integration)"]
+        D["• 任务终态 (Pass@k vs Pass^k 压测)<br/>• 5 档轨迹严格度逐步比对分析<br/>• 动态 User Simulator 隐藏目标卡博弈<br/>• 多 Agent 协作评测与团队消融实验"]:::cardStyle
+    end
+
+    subgraph PHASE4["4. 生产运维 (Release & Operations)"]
+        E["• 5 大发布闸门红线 (质量/成本/安全/可用性)<br/>• 线上 A/B 灰度测试 (真实业务流量裁决)<br/>• 异常优雅降级 (API 500 熔断与防堆栈泄露)<br/>• Bad Case 自动化回灌基准集形成数据飞轮"]:::cardStyle
+    end
+
+    TOP --> PHASE1 --> PHASE2 --> PHASE3 --> PHASE4
 ```
 
 1. **选型期**：通过场景反推能力画像，利用私有数据集进行双盲测试，建立 TCO 架构分层；
