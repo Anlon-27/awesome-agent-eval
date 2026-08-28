@@ -19,7 +19,7 @@
 
 As Large Language Models evolve from simple single-turn chatbots into autonomous **AI Agents** equipped with multi-step planning, tool calling, multi-turn interaction, and multi-agent coordination, traditional software assertions and basic Q&A evaluation metrics fall short.
 
-**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, spotlighting industry breakthroughs such as the **Meituan LongCat series, Berkeley BFCL, and SWE-bench**.
+**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, deeply integrating global state-of-the-art frameworks (**DeepEval, Ragas, Promptfoo, Inspect AI**) and premier benchmarks (**Meituan LongCat, TAU-bench, SWE-bench, GAIA, BFCL**).
 
 ---
 
@@ -32,6 +32,25 @@ graph TD
     A --> D["3. System Integration<br/>• Final outcomes (Pass@k vs Pass^k)<br/>• Trajectory matching (5 strictness tiers)<br/>• Dynamic User Simulator + Hidden Goal Cards<br/>• Multi-agent coordination & ablation"]
     A --> E["4. Release & Operations<br/>• 5 release quality gates (Quality/Cost/Security)<br/>• Production A/B testing (real traffic)<br/>• Observability (Logs/Traces/Metrics)<br/>• Bad-case regression flywheel"]
 ```
+
+---
+
+## 🛠️ Global Agent Evaluation Ecosystem Radar
+
+| Category | Core Tool / Benchmark | Institution / Repo | Key Capabilities & Scenarios |
+| :--- | :--- | :--- | :--- |
+| **Testing Frameworks** | **DeepEval** | [confident-ai/deepeval](https://github.com/confident-ai/deepeval) | Production-ready Agent unit testing, G-Eval custom rubrics, CI/CD integration |
+| | **Ragas** | [explodinggradients/ragas](https://github.com/explodinggradients/ragas) | Standard for RAG retrieval quality, faithfulness & multi-agent communication |
+| | **Promptfoo** | [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) | Blazing-fast CLI for prompt iteration and automated red-teaming security scans |
+| | **Inspect AI** | [UK-AI-Safety-Institute/inspect_ai](https://github.com/UK-AI-Safety-Institute/inspect_ai) | UK AISI framework for enterprise/government safety & long-horizon capability eval |
+| | **DSPy** | [stanfordnlp/dspy](https://github.com/stanfordnlp/dspy) | Stanford framework for metric-driven programmatic prompt compilation & auto-tuning |
+| **Interactive Benchmarks** | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (Meituan) | 3D POMDP life services complexity modeling, 66 tools, $\text{Pass}^4$ stress testing |
+| | **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Stanford/Sierra) | Dynamic customer service benchmark with sandbox DB transaction rollback checks |
+| | **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (Princeton) | Real GitHub issue resolution evaluated by Docker unit test flips |
+| | **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/HF) | Multi-modal, multi-step complex general assistant long-horizon tasks |
+| | **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC Berkeley) | Authoritative tool calling & parallel function calling leaderboard |
+| **Observability & Tracing**| **AgentOps** | [AgentOps-AI/agentops](https://github.com/AgentOps-AI/agentops) | Multi-agent execution graph tracing, loop detection, and token cost breakdown |
+| | **Phoenix** | [Arize-AI/phoenix](https://github.com/Arize-AI/phoenix) | Open-source LLM/RAG observability & UMAP semantic drift clustering |
 
 ---
 
@@ -55,8 +74,9 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 - [**04. Component Evaluation**](./docs/04-component-eval.md): RAG precision/recall/faithfulness, tool hallucination defense, planning reflection errors.
 - [**05. System Integration**](./docs/05-system-integration.md): 5-tier trajectory matching, dynamic multi-turn user simulation, and multi-agent ablation studies.
 - [**06. Release Gates & Observability**](./docs/06-release-and-ops.md): 5 release gates, canary deployments, and data flywheel.
-- [**07. Industry Case Studies**](./docs/07-case-studies.md): Meituan LongCat Series (VitaBench / Next / Flash), BFCL, and SWE-bench.
+- [**07. Industry Case Studies**](./docs/07-case-studies.md): Meituan LongCat Series, TAU-bench, SWE-bench, and GAIA.
 - [**08. 23 Interview Flashcards**](./docs/08-interview-cards.md): High-frequency interview Q&A.
+- [**09. Global Ecosystem Radar**](./docs/09-awesome-tools-and-frameworks.md): 16 top toolkits & platform selection matrix.
 
 ---
 

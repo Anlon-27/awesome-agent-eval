@@ -17,9 +17,9 @@
 
 ## 📖 项目简介 (Introduction)
 
-随着大模型从单轮对话演进为具备“自主规划、工具调用、多轮交互与多智能体协作”的 **AI Agent**，传统的软件测试与简单的问答评测已经完全失效。
+随着大语言模型从单轮问答演进为具备“自主规划、工具调用、多轮交互、多智能体协作”的 **AI Agent**，传统的确定性软件测试与简单的问答评测已经完全失效。
 
-**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的评测体系与实战框架**，并深度收录工业界前沿标杆（如 **美团龙猫 LongCat 系列、Berkeley BFCL、SWE-bench** 等），解决 Agent 落地中“评不准、看不清、难复现、无闭环”的核心痛点。
+**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的权威评测体系与实操框架**。深度整合全球学术界与工业界顶级开源框架（**DeepEval、Ragas、Promptfoo、Inspect AI**）以及前沿权威基准（**美团龙猫 LongCat 系列、TAU-bench、SWE-bench、GAIA、BFCL**），为 AI 测试开发工程师提供标准化的方法论、评测数据集与可落地的自动化脚本。
 
 ---
 
@@ -35,13 +35,30 @@ graph TD
 
 ---
 
-## 🐱 前沿聚焦：美团龙猫 (Meituan LongCat) 系列研究
+## 🛠️ 全球前沿 Agent 评测工具与框架生态雷达 (Ecosystem Radar)
 
-本项目深度拆解并追踪了美团龙猫团队在 Agent 评测与前沿多模态架构的标杆成果：
+| 分类 | 核心工具 / 平台 | 主导机构 / 仓库 | 核心评测场景与特长 |
+| :--- | :--- | :--- | :--- |
+| **评测框架与断言库** | **DeepEval** | [confident-ai/deepeval](https://github.com/confident-ai/deepeval) | 生产级 Agent 单元测试、G-Eval 自定义量规、CI/CD 集成 (本仓库默认引擎) |
+| | **Ragas** | [explodinggradients/ragas](https://github.com/explodinggradients/ragas) | 专注 RAG 检索质量、忠实度与多 Agent 通信交互评估 |
+| | **Promptfoo** | [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) | 高性能 CLI 工具，主打 Prompt 变体对比与红队安全渗透自动化测试 |
+| | **Inspect AI** | [UK-AI-Safety-Institute/inspect_ai](https://github.com/UK-AI-Safety-Institute/inspect_ai) | 英国人工智能安全研究所出品，专注模型长链路安全与能力评估 |
+| | **DSPy** | [stanfordnlp/dspy](https://github.com/stanfordnlp/dspy) | 斯坦福大学出品，通过自动化 Metric 驱动 Prompt 自动编译与调优 |
+| **权威交互基准** | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (美团) | 外卖/到店/出行复杂生活服务三维 POMDP 建模、$\text{Pass}^4$ 严苛抗抖动压测 |
+| | **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Stanford/Sierra) | 智能客服环境状态验证（真实数据库事务回滚与越权检查） |
+| | **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (普林斯顿) | 真实 GitHub Issue 代码修复（以 Docker 沙箱中 Unit Test 通过为准） |
+| | **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/HF) | 通用个人助手长链路多模态、多步骤文件/代码综合处理基准 |
+| | **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC 伯克利) | 原生 Tool Calling / Function Calling 权威排行榜与多语言调用评测 |
+| **可观测与 Tracing** | **AgentOps** | [AgentOps-AI/agentops](https://github.com/AgentOps-AI/agentops) | 专为 Agent 设计的调用链追踪、死循环检测与 Token 费用分析 |
+| | **Phoenix** | [Arize-AI/phoenix](https://github.com/Arize-AI/phoenix) | 完全开源的 LLM/RAG 可观测性平台与 UMAP 语义漂移聚类分析 |
+
+---
+
+## 🐱 前沿聚焦：美团龙猫 (Meituan LongCat) 系列研究
 
 | 研究成果 | 类型 | 核心创新点 / 评测意义 | 链接 |
 | :--- | :---: | :--- | :--- |
-| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-case-studies.md) |
+| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-case-studies.md#一-美团-vitabench生活服务复杂交互评测基准) |
 | **LongCat-Next** | 顶会论文 | *Lexicalizing Modalities as Discrete Tokens*：原生统一离散多模态自回归架构 | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | 技术报告 | 高并发实时业务极致低时延推理、MoE 稀疏优化与长上下文 KV 压缩 | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
 
@@ -57,8 +74,9 @@ graph TD
 | [**04. 核心零件评测**](./docs/04-component-eval.md) | Prompt / RAG / 工具 / 规划单体验证 | RAG 忠实度、Tool Calling 防幻觉反例、规划反思错误 |
 | [**05. 系统级集成**](./docs/05-system-integration.md) | 轨迹比对、多轮对抗与团队消融 | 5 档轨迹严格度、动态 User Simulator、多 Agent 消融实验 |
 | [**06. 发布与运维**](./docs/06-release-and-ops.md) | 5 大发布闸门红线与线上可观测性 | 质量/时延/安全红线、灰度放量、数据飞轮回归闭环 |
-| [**07. 前沿案例**](./docs/07-case-studies.md) | 工业界评测落地最佳实践 | 美团 LongCat 全家桶 (VitaBench / Next / Flash)、BFCL、SWE-bench |
+| [**07. 前沿案例**](./docs/07-case-studies.md) | 工业界评测落地最佳实践 | 美团 LongCat 全家桶、TAU-bench、SWE-bench、GAIA |
 | [**08. 高频面试题**](./docs/08-interview-cards.md) | 23 道 Agent 评测核心面试题与答题卡片 | 涵盖概念、方法、指标、工程落地全景解析 |
+| [**09. 生态雷达**](./docs/09-awesome-tools-and-frameworks.md) | 全球 16 大 Agent 评测工具与框架矩阵 | 选型对比表、功能矩阵与测试开发团队最佳落地路径 |
 
 ---
 
@@ -71,7 +89,7 @@ cd awesome-agent-eval
 pip install -r requirements.txt
 ```
 
-### 2. 运行开箱即用的评测用例 (基于 Pytest & Python)
+### 2. 运行开箱即用的评测用例 (基于 Python & Pytest)
 
 ```bash
 # 1. 运行工具调用精准度与防幻觉测试
