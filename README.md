@@ -85,17 +85,48 @@ flowchart TD
 ## 🧭 Agent 评测全生命周期架构图 (Evaluation Landscape)
 
 ```mermaid
-flowchart LR
-    classDef groupStyle fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,rx:6px,ry:6px;
-    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1px,color:#1e293b;
+flowchart TD
+    classDef mainNode fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e40af,font-weight:bold,rx:6px,ry:6px;
+    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1.5px,color:#1e293b,rx:6px,ry:6px;
 
-    A["🎯 评估驱动开发 (EDD)"] --> B["1. 选型期 (Selection)<br/>• 场景反推能力画像<br/>• 硬门槛初筛 + TCO 架构降本<br/>• 私有业务数据集双盲测试"]
-    B --> C["2. 组件单体 (Component)<br/>• 提示词扰动稳定性测试<br/>• RAG 检索段/生成段双段法<br/>• Tool Calling 4 项核对与反例<br/>• Planning 3 大失败模式归因"]
-    C --> D["3. 系统集成 (System)<br/>• 任务终态 (Pass@k vs Pass^k)<br/>• 5 档轨迹严格度比对<br/>• 动态 User Simulator 隐藏目标卡<br/>• 多 Agent 协作评测与消融实验"]
-    D --> E["4. 发布监控 (Ops)<br/>• 5 大发布闸门红线 (质量/成本/安全)<br/>• 线上 A/B 真实业务流量放量<br/>• 异常优雅降级 (API 500 熔断)<br/>• Bad Case 自动回灌数据飞轮"]
+    TOP["🎯 评估驱动开发 (Evaluation-Driven Development) 贯穿全生命周期"]:::mainNode
 
-    class B,C,D,E cardStyle;
+    subgraph PHASE1["1. 选型期 (Model Selection)"]
+        B["• 场景反推能力画像与权重配比<br/>• 硬门槛初筛 + TCO 分层降本架构<br/>• 私有业务数据集双盲对比测试"]:::cardStyle
+    end
+
+    subgraph PHASE2["2. 组件单体 (Component Testing)"]
+        C["• 提示词扰动鲁棒性与边界防注入<br/>• RAG 检索段与生成段双段解耦评测<br/>• Tool Calling 4 项核对与防幻觉反例<br/>• Planning 3 大典型失败模式归因"]:::cardStyle
+    end
+
+    subgraph PHASE3["3. 系统集成 (System Integration)"]
+        D["• 任务终态 (Pass@k vs Pass^k 压测)<br/>• 5 档轨迹严格度逐步比对分析<br/>• 动态 User Simulator 隐藏目标卡博弈<br/>• 多 Agent 协作评测与团队消融实验"]:::cardStyle
+    end
+
+    subgraph PHASE4["4. 生产运维 (Release & Operations)"]
+        E["• 5 大发布闸门红线 (质量/成本/安全/可用性)<br/>• 线上 A/B 灰度测试 (真实业务流量裁决)<br/>• 异常优雅降级 (API 500 熔断与防堆栈泄露)<br/>• Bad Case 自动化回灌基准集形成数据飞轮"]:::cardStyle
+    end
+
+    TOP --> PHASE1 --> PHASE2 --> PHASE3 --> PHASE4
 ```
+
+---
+
+## 📚 体系化深度指南目录 (Table of Contents)
+
+| 章节导航 | 核心主题与深度实战要点 |
+| :--- | :--- |
+| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境与评估驱动开发（EDD）的核心思想与生命周期 |
+| [**02. 指标与武器库**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG 代码度量、双盲消偏与 Judge 量规 |
+| [**03. 基模选型与 TCO**](./docs/03-model-selection.md) | 场景反推能力画像、私有集双盲测试与旗舰/轻量模型分流架构降本 |
+| [**04. 核心零件单体**](./docs/04-component-eval.md) | Prompt 变体、RAG 双段法、Tool Calling 4 项核对与防幻觉反例注入 |
+| [**05. 四大工程质量**](./docs/05-core-quality-dimensions.md) | RAG 效果指标、提示词扰动鲁棒性、JSON Schema 结构合规与 API 500 降级 |
+| [**06. 系统级集成**](./docs/06-system-integration.md) | 5 档轨迹比对、动态 User Simulator（中途改口博弈）与多 Agent 协作消融 |
+| [**07. 权威基准与数据**](./docs/07-benchmark-schemas-and-cases.md) | SWE-bench、OSWorld、Terminal-Bench、美团 VitaBench 的 JSON 数据结构 |
+| [**08. 自主编程专题**](./docs/08-autonomous-coding-agents.md) | OpenHands (CodeAct) 与 SWE-Agent (ACI 接口) 自主编程架构深度拆解 |
+| [**09. 发布闸门与运维**](./docs/09-release-and-ops.md) | 5 大发布闸门红线、线上 A/B 灰度放量与数据飞轮回归闭环 |
+| [**10. 评测平台与生态**](./docs/10-awesome-tools-and-frameworks.md) | OpenCompass、LM-Eval 与企业级评测平台 5 层标准架构开发实战 |
+| [**11. 疑难解答与最佳**](./docs/11-faqs-and-best-practices.md) | 23 个工业级核心疑难深度解析与避坑指南 FAQ |
 
 ---
 
@@ -141,24 +172,6 @@ flowchart LR
 | **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
 | **LongCat-Next** | 顶会论文 | *Lexicalizing Modalities as Discrete Tokens*：原生统一离散多模态自回归架构 | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | 技术报告 | 高并发实时业务极致低时延推理、MoE 稀疏优化与长上下文 KV 压缩 | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
-
----
-
-## 📚 体系化深度指南目录 (Table of Contents)
-
-| 章节 | 核心主题 | 关键要点 |
-| :--- | :--- | :--- |
-| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境与评估驱动开发 | 解决非确定性、过程不可见、数据污染与裁判偏见 |
-| [**02. 指标与通用武器库**](./docs/02-general-weapons.md) | Accuracy/BLEU/BERTScore/Swap 比较 | 确定性代码度量、神经语义度量、双盲消偏与 Judge 量规 |
-| [**03. 基模选型与 TCO**](./docs/03-model-selection.md) | 选型四步法与 TCO 架构降本 | 场景反推能力画像、旗舰与轻量模型分流架构 |
-| [**04. 核心零件单体评测**](./docs/04-component-eval.md) | Prompt / RAG / 工具 / 规划单体验证 | RAG 忠实度、Tool Calling 防幻觉反例、规划反思错误 |
-| [**05. 四大工程质量维度**](./docs/05-core-quality-dimensions.md) | RAG 效果、提示词鲁棒性、返回质量与异常兜底 | 扰动测试、JSON 结构合规、API 500 优雅降级与熔断防护 |
-| [**06. 系统级集成评测**](./docs/06-system-integration.md) | 轨迹比对、多轮对抗与团队消融 | 5 档轨迹严格度、动态 User Simulator、多 Agent 消融实验 |
-| [**07. 权威基准与数据结构**](./docs/07-benchmark-schemas-and-cases.md) | 权威基准深度拆解与 JSON Schemas | SWE-bench、OSWorld、Terminal-Bench、美团 LongCat、TAU-bench |
-| [**08. 自主编程 Agent 专题**](./docs/08-autonomous-coding-agents.md) | OpenHands 与 SWE-Agent 架构深度拆解 | ACI 智能体-计算机接口设计、EventStream 与 SWE-bench 实战 |
-| [**09. 发布闸门与运维监控**](./docs/09-release-and-ops.md) | 5 大发布闸门红线与线上可观测性 | 质量/时延/安全红线、灰度放量、数据飞轮回归闭环 |
-| [**10. 评测平台与生态雷达**](./docs/10-awesome-tools-and-frameworks.md) | OpenCompass、LM-Eval 与评测系统架构 | 工业级评测平台 5 层架构设计方案与分布式算子调度 |
-| [**11. 疑难解答与最佳实践**](./docs/11-faqs-and-best-practices.md) | 核心疑难问题深度解析与工业界避坑 FAQ | 涵盖概念、方法、指标、工程落地全景解析 |
 
 ---
 

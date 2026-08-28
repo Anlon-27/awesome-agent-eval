@@ -85,16 +85,48 @@ flowchart TD
 ## 🧭 Evaluation Landscape
 
 ```mermaid
-flowchart LR
-    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1px,color:#1e293b;
+flowchart TD
+    classDef mainNode fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e40af,font-weight:bold,rx:6px,ry:6px;
+    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1.5px,color:#1e293b,rx:6px,ry:6px;
 
-    A["🎯 Evaluation-Driven Development (EDD)"] --> B["1. Model Selection<br/>• Capability profiling<br/>• Hard constraints & TCO tiering<br/>• Private dataset double-blind tests"]
-    B --> C["2. Component Evals<br/>• Prompt perturbation robustness<br/>• RAG 2-stage (Retrieval vs Generation)<br/>• Tool Calling 4-check & negative cases<br/>• Planning failure mode attribution"]
-    C --> D["3. System Integration<br/>• Final outcomes (Pass@k vs Pass^k)<br/>• 5-tier trajectory matching<br/>• Dynamic User Simulator goal gaming<br/>• Multi-agent coordination ablation"]
-    D --> E["4. Release & Ops<br/>• 5 release quality gates<br/>• Production A/B canary testing<br/>• Graceful fallback (API 500 error shielding)<br/>• Bad-case regression flywheel"]
+    TOP["🎯 Evaluation-Driven Development (EDD) Across Full Lifecycle"]:::mainNode
 
-    class B,C,D,E cardStyle;
+    subgraph PHASE1["1. Model Selection"]
+        B["• Reverse-engineer capability profile & weights<br/>• Hard constraints screening + TCO tiering<br/>• Private dataset double-blind benchmark"]:::cardStyle
+    end
+
+    subgraph PHASE2["2. Component Testing"]
+        C["• Prompt perturbation robustness testing<br/>• RAG 2-stage (Retrieval vs Generation)<br/>• Tool Calling 4-check & negative cases<br/>• Planning 3 failure modes attribution"]:::cardStyle
+    end
+
+    subgraph PHASE3["3. System Integration"]
+        D["• Outcomes (Pass@k vs Pass^k stress testing)<br/>• 5-tier trajectory matching analysis<br/>• Dynamic User Simulator goal-shift gaming<br/>• Multi-agent coordination ablation studies"]:::cardStyle
+    end
+
+    subgraph PHASE4["4. Release & Operations"]
+        E["• 5 release quality gates (Quality/Cost/Security)<br/>• Production A/B testing (real user traffic)<br/>• Graceful fallback (API 500 shielding)<br/>• Bad-case regression data flywheel"]:::cardStyle
+    end
+
+    TOP --> PHASE1 --> PHASE2 --> PHASE3 --> PHASE4
 ```
+
+---
+
+## 📚 Table of Contents
+
+| Section | Core Highlights & Practical Takeaways |
+| :--- | :--- |
+| [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md) | Solving non-determinism, invisible processes, and Evaluation-Driven Development (EDD). |
+| [**02. Core Metrics & Weapons**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG code metrics, Position-Swap, and LLM-as-a-Judge rubrics. |
+| [**03. Model Selection & TCO**](./docs/03-model-selection.md) | Capability profiling and hierarchical model routing for cost reduction. |
+| [**04. Component Evaluation**](./docs/04-component-eval.md) | Prompt variants, RAG 2-stage eval, tool calling 4-check, and planning reflection errors. |
+| [**05. 4 Core Engineering Dimensions**](./docs/05-core-quality-dimensions.md) | RAG effectiveness, prompt perturbation, schema integrity & API 500 fallbacks. |
+| [**06. System Integration**](./docs/06-system-integration.md) | 5-tier trajectory matching, dynamic multi-turn user simulation, and multi-agent ablation. |
+| [**07. Case Studies & Schemas**](./docs/07-benchmark-schemas-and-cases.md) | SWE-bench, OSWorld, Terminal-Bench, Meituan VitaBench, and TAU-bench JSON schemas. |
+| [**08. Autonomous Coding Agents**](./docs/08-autonomous-coding-agents.md) | Deep dive into OpenHands (CodeAct) and SWE-Agent (ACI) autonomous coding architectures. |
+| [**09. Release Gates & Observability**](./docs/09-release-and-ops.md) | 5 release gates, canary deployments, observability triad, and data flywheel. |
+| [**10. Evaluation Platforms & Architecture**](./docs/10-awesome-tools-and-frameworks.md) | OpenCompass, LM-Evaluation-Harness, and 5-layer platform architecture. |
+| [**11. Engineering FAQs & Best Practices**](./docs/11-faqs-and-best-practices.md) | 23 in-depth engineering solutions and anti-pattern guides. |
 
 ---
 
@@ -105,7 +137,7 @@ flowchart LR
 | **Accuracy** | Proportion of correct predictions ($\frac{TP+TN}{Total}$) | Multiple choice (MMLU), Classification | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **Exact Match (EM)** | 100% exact match after normalization | Tool names, slot extraction, status codes | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **BLEU (1~4)** | Modified n-gram precision + Brevity Penalty (BP) | Machine translation, code gen (HumanEval) | [`nltk`](https://github.com/nltk/nltk) / [`sacrebleu`](https://github.com/mjpost/sacrebleu) |
-| **ROUGE (1/2/L)** | Longest Common Subsequence (LCS) recall-oriented | Text summarization, document synthesis | [`google-research/rouge`](https://github.com/google-research/google-research) |
+| **ROUGE (1/2/L)** | Longest Common Subsequence (LCS) recall-oriented | Text summarization, document synthesis | [`google-research/rouge`](https://google-research/rouge) |
 | **BERTScore** | Contextual embedding maximum cosine similarity | Open Q&A, paraphrase similarity | [`Tiiiger/bert_score`](https://github.com/Tiiiger/bert_score) *(ICLR 2020)* |
 | **NDCG@k / MRR** | Normalized Discounted Cumulative Gain & MRR | RAG retrieval ranking quality | [`ranx`](https://github.com/AmenDa/ranx) / [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) |
 
@@ -142,22 +174,6 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 | **VitaBench** | Benchmark | 3D POMDP task complexity modeling, 66-tool dependency graph, and $\text{Pass}^4$ stress testing | [Deep Dive](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
 | **LongCat-Next** | Paper | *Lexicalizing Modalities as Discrete Tokens*: Native unified multimodal discrete autoregression | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | Tech Report | Ultra-low latency online inference architecture, MoE routing, and long-context KV compression | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
-
----
-
-## 📚 Table of Contents
-
-- [**01. 5 Core Dilemmas & EDD**](./docs/01-dilemmas-and-edd.md): Solving non-determinism, invisible processes, benchmark contamination, and judge biases.
-- [**02. Core Metrics & Weapons**](./docs/02-general-weapons.md): Accuracy, BLEU, BERTScore, Position-Swap, and LLM-as-a-Judge rubrics.
-- [**03. Model Selection & TCO**](./docs/03-model-selection.md): Capability profiling and hierarchical model routing.
-- [**04. Component Evaluation**](./docs/04-component-eval.md): RAG precision/recall/faithfulness, tool hallucination defense, planning reflection errors.
-- [**05. 4 Core Engineering Dimensions**](./docs/05-core-quality-dimensions.md): RAG effectiveness, prompt perturbation, schema integrity & API 500 fallbacks.
-- [**06. System Integration**](./docs/06-system-integration.md): 5-tier trajectory matching, dynamic multi-turn user simulation, and multi-agent ablation studies.
-- [**07. Case Studies & Schemas**](./docs/07-benchmark-schemas-and-cases.md): SWE-bench, OSWorld, Terminal-Bench, Meituan LongCat, TAU-bench, and GAIA.
-- [**08. Autonomous Coding Agents**](./docs/08-autonomous-coding-agents.md): Deep dive into OpenHands and SWE-Agent ACI architectures.
-- [**09. Release Gates & Observability**](./docs/09-release-and-ops.md): 5 release gates, canary deployments, and data flywheel.
-- [**10. Evaluation Platforms & Architecture**](./docs/10-awesome-tools-and-frameworks.md): OpenCompass, LM-Evaluation-Harness, and 5-layer platform architecture.
-- [**11. Engineering FAQs & Best Practices**](./docs/11-faqs-and-best-practices.md): 23 in-depth engineering solutions and anti-pattern guides.
 
 ---
 
