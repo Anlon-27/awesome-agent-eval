@@ -1,0 +1,14 @@
+[
+  {
+    "sample_id": "RAG-SAMPLE-001",
+    "question": "MotoTest 测试平台最多支持同时管理多少台无人机？",
+    "retrieved_contexts": [
+      "MotoTest 是基于 Flask 与 SocketIO 搭建的分布式无人机自动化测试管理平台，支持 40+ 台无人机的设备监控、任务调度与日志解析。"
+    ],
+    "ground_truth": "MotoTest 平台最多支持同时管理 40+ 台无人机设备。",
+    "expected_metrics": {
+      "faithfulness_min": 1.0,
+      "context_precision_min": 1.0
+    }
+  }
+]

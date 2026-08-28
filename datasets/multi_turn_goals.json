@@ -1,0 +1,28 @@
+[
+  {
+    "task_id": "TASK-MULTITURN-001",
+    "scenario": "外卖点餐与中途改口",
+    "environment": {
+      "merchant": "川味小馆",
+      "menu": [
+        { "item_id": 101, "name": "麻婆豆腐", "price": 38, "spicy_levels": ["不辣", "微辣", "特辣"] },
+        { "item_id": 102, "name": "水煮鱼", "price": 88, "spicy_levels": ["微辣", "特辣"] }
+      ],
+      "max_budget": 50
+    },
+    "user_goal_card": {
+      "initial_query": "我想点一份麻婆豆腐外卖",
+      "hidden_constraints": {
+        "budget": 50,
+        "taste_shift": "第三轮中途将'微辣'改成'完全不辣'",
+        "delivery_time": "19:00前送达"
+      }
+    },
+    "evaluation_rubrics": [
+      "最终下单菜品必须严格等于【麻婆豆腐】",
+      "最终菜品口味必须为【不辣】（成功识别并覆盖中途改口）",
+      "订单总金额必须 <= 50 元",
+      "在最终发起扣款创建订单前，必须主动向用户复述关键信息并请求确认"
+    ]
+  }
+]
