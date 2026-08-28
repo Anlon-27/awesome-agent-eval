@@ -1,6 +1,6 @@
-# 07. 工业界前沿实战案例与权威评测基准 (Industry Case Studies & Benchmarks)
+# 07. 工业界前沿实战案例、权威基准与样本数据结构 (Case Studies & Benchmark Schemas)
 
-本章汇集并深度拆解全球工业界与学术界在 **Agent 评测基准 (SWE-bench / OSWorld / Terminal-Bench / VitaBench / TAU-bench / GAIA)**、**多模态基模架构 (LongCat-Next)** 与 **高效低时延推理架构 (LongCat-Flash)** 领域的顶级实战落地成果。
+本章汇集并深度拆解全球工业界与学术界在 **Agent 评测基准 (SWE-bench / OSWorld / Terminal-Bench / VitaBench / TAU-bench / GAIA)** 领域的顶级实战成果，并提供**权威基准的标准样本数据结构（JSON Schemas）与判定规则**。
 
 ---
 
@@ -8,7 +8,7 @@
 
 * 📄 **论文**：[*SWE-bench: Can Language Models Resolve Real-World GitHub Issues? (ICLR 2024)*](https://arxiv.org/abs/2310.06770)
 * 🐙 **官方仓库**：[`princeton-nlp/SWE-bench`](https://github.com/princeton-nlp/SWE-bench)
-* 🌟 **行业地位**：**AI 软件工程与自主代码 Agent（如 Devin、Claude Code、Cursor）全球公认的唯一“黄金定级赛”！**
+* 🌟 **行业地位**：**AI 软件工程与自主代码 Agent（如 OpenHands, SWE-agent, Devin, Claude Code）全球公认的唯一“黄金定级赛”！**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -20,18 +20,34 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-```mermaid
-graph TD
-    A["1. 真实 GitHub Issue<br/>(来自 Django, pytest, sympy 等)"] --> B["2. Docker 隔离沙箱启动<br/>(克隆代码并还原当时 commit)"]
-    B --> C["3. 被测 Coding Agent 执行<br/>• 跨文件代码搜索 (grep/find)<br/>• 阅读定位定位 Bug 根因<br/>• 修改代码生成 git patch (.diff)"]
-    C --> D["4. 严格客观判分 (Unit Test 翻转)<br/>• FAIL_TO_PASS: 原本失败的测试用例必须 100% 变绿<br/>• PASS_TO_PASS: 原本通过的测试用例绝不能被改坏"]
-    D -->|全部满足| E["✅ 判定通过 (Issue Resolved)"]
-    D -->|任一未过| F["❌ 判定失败 (0 分)"]
+### 📋 标准样本数据结构（SWE-bench Instance Schema）：
+
+```json
+{
+  "instance_id": "django__django-11099",
+  "repo": "django/django",
+  "base_commit": "4dfa98e82d1c68f9a2d3b2591638ec8b",
+  "problem_statement": "UsernameValidator allows trailing newline in usernames.\n\nDescription:\nASCIIUsernameValidator and UnicodeUsernameValidator accept usernames with a trailing newline...",
+  "hints_text": "Discussion and PR comments from maintainers...",
+  "created_at": "2019-03-24T18:22:04Z",
+  "patch": "diff --git a/django/contrib/auth/validators.py b/django/contrib/auth/validators.py\n--- a/django/contrib/auth/validators.py\n+++ b/django/contrib/auth/validators.py\n@@ -7,7 +7,7 @@\n-    regex = r'^[\\w.@+-]+$'\n+    regex = r'^[\\w.@+-]+\\Z'",
+  "test_patch": "diff --git a/tests/auth_tests/test_validators.py b/tests/auth_tests/test_validators.py...",
+  "version": "3.0",
+  "FAIL_TO_PASS": [
+    "tests.auth_tests.test_validators.ASCIIUsernameValidatorTest.test_ascii_validator_trailing_newline",
+    "tests.auth_tests.test_validators.UnicodeUsernameValidatorTest.test_unicode_validator_trailing_newline"
+  ],
+  "PASS_TO_PASS": [
+    "tests.auth_tests.test_validators.ASCIIUsernameValidatorTest.test_valid_usernames",
+    "tests.auth_tests.test_validators.UnicodeUsernameValidatorTest.test_valid_usernames"
+  ],
+  "environment_setup_commit": "4dfa98e82d1c68f9a2d3b2591638ec8b"
+}
 ```
 
-### 💡 核心评测设计与启发：
-1. **彻底杜绝 LLM 裁判的主观偏差**：通过 Docker 沙箱中真实运行 `pytest` 单元测试是否翻转（FAIL $\rightarrow$ PASS）作为客观标准；
-2. **长链路文件系统感知**：要求 Agent 具备在数万行代码库中自主导航、多文件编辑与环境配置的能力。
+#### ⚖️ 核心判定规则：
+* **FAIL_TO_PASS 列表**：在 Agent 修改代码应用 Patch 后，列表中所有原本失败的测试用例必须 **100% 变绿（PASS）**；
+* **PASS_TO_PASS 列表**：列表中所有原本通过的历史回归测试用例，**绝对不允许被破坏（必须保持 PASS）**。
 
 ---
 
@@ -41,69 +57,108 @@ graph TD
 * 🐙 **官方仓库**：[`xlang-ai/OSWorld`](https://github.com/xlang-ai/OSWorld)
 * 🌟 **行业地位**：全球首个**全功能真实计算机操作系统（Ubuntu OS）多模态 GUI + CLI 智能体评测基准**。
 
-```
-                            ┌──────────────────────────────────────────┐
-                            │ 真实 Ubuntu 操作系统虚拟机 / Docker 环境 │
-                            └────────────────────┬─────────────────────┘
-                                                 │
-                   ┌─────────────────────────────┼─────────────────────────────┐
-                   ▼                             ▼                             ▼
-         [ 办公套件 Office ]             [ 网络与通信 App ]            [ 多媒体与开发工具 ]
-         LibreOffice Writer/Calc         Chrome 浏览器 / Thunderbird   VS Code / GIMP / VLC
+### 📋 标准样本数据结构（OSWorld Task Schema）：
+
+```json
+{
+  "id": "7f8b9c2a-calc-chart-001",
+  "instruction": "Open 'sales.csv' on Desktop in LibreOffice Calc, create a 3D bar chart of Q1-Q4 revenue, and save it as 'chart.pdf' in Documents.",
+  "domain": "office",
+  "app": "libreoffice_calc",
+  "initial_state": {
+    "files": [
+      {
+        "path": "/home/user/Desktop/sales.csv",
+        "source": "s3://osworld-benchmark/data/sales_2026.csv"
+      }
+    ],
+    "apps_to_open": []
+  },
+  "evaluation": {
+    "evaluator_type": "file_and_content_check",
+    "target_file": "/home/user/Documents/chart.pdf",
+    "expected_properties": {
+      "format": "pdf",
+      "page_count": 1,
+      "contains_chart": true,
+      "chart_type": "bar_3d"
+    }
+  }
+}
 ```
 
-### 💡 核心评测设计与启发：
-1. **多模态环境感知与动作空间**：
-   * 输入：屏幕截图（Screenshot RGB）+ 操作系统无障碍辅助树（Accessibility Tree / A11y）+ Bash 终端；
-   * 输出动作：鼠标移动、左键/右键点击、拖拽（Drag & Drop）、键盘打字、系统快捷键与 Bash 命令。
-2. **真实跨应用长链路任务（369 个真实任务）**：
-   * 例如：“在 Chrome 中下载销售数据 CSV，用 LibreOffice Calc 绘制柱状图，保存为 PDF 并通过 Thunderbird 邮件发送给经理”。
-3. **确定性底层状态校验器（State Evaluator）**：
-   * 任务结束后，评测引擎直接读取系统底层的 SQLite 数据库、文件系统 MD5、配置文件与进程状态进行严格断言。
+#### ⚖️ 核心判定规则：
+* 评测引擎在 Agent 执行完毕后，直接调用底层的 Python 脚本、SQLite 读取器或 PDF 解析器，比对操作系统文件状态、DOM 节点或配置文件属性。
 
 ---
 
 ## ⌨️ 案例专题三：Terminal-Bench / InterCode (命令行与终端 Agent 基准)
 
-* 📄 **代表基准**：[`princeton-nlp/intercode`](https://github.com/princeton-nlp/intercode) / **Terminal-Bench** (普林斯顿 / UC 伯克利)
+* 📄 **代表基准**：[`princeton-nlp/intercode`](https://github.com/princeton-nlp/intercode) / **Terminal-Bench**
 * 🌟 **行业地位**：评估 Agent 在 **Linux 命令行终端（Bash / Shell）** 环境下自主运维、网络排错与系统管理的标准基准。
 
-```mermaid
-graph LR
-    A["用户终端任务<br/>'排查 8080 端口占用并统计 ERROR 状态码'"] --> B["Agent 发送 Bash 命令<br/>(lsof -i :8080)"]
-    B --> C["Docker 终端沙箱实时执行<br/>返回 stdout / stderr"]
-    C -->|观察报错与反馈| B
-    C -->|最终状态达成| D["系统状态断言 (进程杀死/日志生成)"]
-```
+### 📋 标准样本数据结构（Terminal-Bench Schema）：
 
-### 💡 核心评测设计：
-1. **多轮执行反馈回路 (Execution Feedback Loop)**：Agent 敲入命令后获得实时的终端输出（包括语法错误、权限不足、管道符报错），评测 Agent 是否能根据 `stderr` 进行**自我纠错（Self-Correction）**；
-2. **覆盖完整 DevOps / SRE 场景**：涵盖文件正则过滤（`grep`/`sed`/`awk`）、进程与端口管理（`ps`/`netstat`/`kill`）、包管理器（`apt`/`pip`）、网络调试（`curl`/`tcpdump`）与 Git 版本控制。
+```json
+{
+  "task_id": "intercode-bash-042",
+  "instruction": "Find all files in /var/log modified in the last 24 hours containing 'ERROR' and save their absolute paths to /tmp/error_files.txt",
+  "environment": "docker-ubuntu-22.04",
+  "initial_setup": "bash setup_logs.sh",
+  "gold_commands": "find /var/log -mtime -1 -type f -exec grep -l 'ERROR' {} + > /tmp/error_files.txt",
+  "eval_script": "bash verify_output.sh",
+  "expected_state": {
+    "target_file": "/tmp/error_files.txt",
+    "file_exists": true,
+    "non_empty": true
+  }
+}
+```
 
 ---
 
 ## 🐱 案例专题四：美团龙猫 (Meituan LongCat) 全景前沿体系
 
-美团龙猫团队（Meituan LongCat）在智能体交互评测、端到端原生多模态以及高并发轻量化推理等方向取得了突破性成果：
-
 ### 1. 美团 VitaBench：生活服务复杂交互评测基准
 * 📄 **核心定位**：解决学术 Benchmark 过于“玩具化”的痛点，构建首个贴近真实复杂生活场景的 Agent 交互与决策评测环境。
 * 🍽️ **核心场景**：外卖点餐、餐厅到店、酒旅出行三大高复杂度生活服务。
-* **三维 POMDP 复杂度建模**：
-  * **推理复杂度**：百余商品候选、多步长链路约束满足；
-  * **工具复杂度**：66 个真实业务工具与 512 条前置依赖边的稠密工具图；
-  * **交互复杂度**：引入 GPT-4.1 动态用户模拟器，模拟模糊表达与中途改口。
-* **$\text{Pass}^4$ 严苛度压测**：在 Temperature=0 下同一任务连续跑 4 次，4 次全对才算通过。
-* **关键实验结论**：即便是顶尖推理模型 $\text{Pass}^4 \approx 0$；失败主因中“推理与规划错误”占 61.8%。
+
+### 📋 标准样本数据结构（VitaBench Task Package）：
+
+```json
+{
+  "task_id": "VITABENCH-FOOD-008",
+  "environment": {
+    "merchant_id": "poi_98712",
+    "merchant_name": "川味小馆",
+    "menu": [
+      { "item_id": 101, "name": "麻婆豆腐", "price": 38, "stock": 5 },
+      { "item_id": 102, "name": "水煮鱼", "price": 88, "stock": 2 }
+    ],
+    "delivery_slots": ["18:30", "19:00", "19:30"]
+  },
+  "user_goal_card": {
+    "hidden_goal": "点一份麻婆豆腐",
+    "budget": 50,
+    "delivery_time": "19:00前送达",
+    "dynamic_change": "第3轮中途将'微辣'改成'完全不辣'"
+  },
+  "evaluation_rubric": [
+    "最终商品必须是麻婆豆腐",
+    "口味必须是不辣 (成功处理改口)",
+    "总金额 <= 50 元",
+    "送达时间 <= 19:00",
+    "下单前必须向用户复述关键信息并请求确认"
+  ]
+}
+```
 
 ### 2. LongCat-Next: Lexicalizing Modalities as Discrete Tokens
 * 📄 **论文**：[*LongCat-Next: Lexicalizing Modalities as Discrete Tokens (arXiv:2603.27538)*](https://arxiv.org/pdf/2603.27538)
 * 🐙 **开源仓库**：[`meituan-longcat/LongCat-Next`](https://github.com/meituan-longcat/LongCat-Next)
-* **核心创新点**：将视觉与音频模态**彻底离散化（Quantization）为统一字典中的离散 Token**，实现全模态端到端原生自回归自监督统一建模。
 
 ### 3. LongCat-Flash Technical Report: 高并发低延迟架构
 * 📄 **技术报告**：[*LongCat-Flash Technical Report (arXiv:2509.01322)*](https://arxiv.org/abs/2509.01322)
-* **核心优化**：针对超高 QPS 业务场景，采用 MoE 稀疏路由与长上下文 KV 压缩，单次推理吞吐提升 3~5 倍，单 Token 成本降低 70%+。
 
 ---
 
@@ -111,15 +166,10 @@ graph LR
 
 * 📄 **论文 & 仓库**：[`sierra-research/tau-bench`](https://github.com/sierra-research/tau-bench)
 * **核心场景**：航空公司退改签、电商退货退款等带真实数据库约束的智能客服场景。
-* **突破性评测设计**：
-  * **数据库事务一致性检查 (DB State Verification)**：在沙箱数据库中真实执行 SQL/API，任务结束后比对数据库状态（防非法改价、防超额退款）；
-  * **用户模拟器动态博弈**：模拟真实用户维权、提供错误单号、提出苛刻要求，评测 Agent 防越权边界。
 
 ---
 
 ## 🌍 案例专题六：GAIA (Meta / AutoGPT / HuggingFace)
 
 * 📄 **基准地址**：[GAIA Benchmark Leaderboard](https://huggingface.co/spaces/gaia-benchmark/leaderboard)
-* **核心场景**：通用个人 AI 助手（General AI Assistants）多模态、多步骤长任务处理。
-* **突破性评测设计**：
-  * **人类极其容易、AI 极难（反向图灵测试设计）**：人类通过率 92%，AI 需自主串联浏览器搜索、多页 PDF/Excel 计算、Python 代码生成与多模态图表识别。
+* **核心场景**：通用个人 AI 助手（General AI Assistants）多模态、多步骤长任务处理（反向图灵测试）。

@@ -19,7 +19,7 @@
 
 随着大语言模型从单轮问答演进为具备“自主规划、工具调用、多轮交互、多智能体协作”的 **AI Agent**，传统的确定性软件测试与简单的问答评测已经完全失效。
 
-**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的权威评测体系与实操框架**。深度整合全球学术界与工业界顶级开源框架（**DeepEval、Ragas、Promptfoo、Inspect AI**）以及全球最硬核的权威交互基准（**SWE-bench、OSWorld、Terminal-Bench、美团龙猫 VitaBench、TAU-bench、GAIA、BFCL**），为 AI 测试开发工程师提供标准化的方法论、评测数据集与开箱即用的自动化脚本。
+**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的权威评测体系与实操框架**。深度整合全球学术界与工业界顶级开源框架（**DeepEval、Ragas、OpenHands、SWE-agent**）以及最硬核的权威基准（**SWE-bench、OSWorld、Terminal-Bench、美团龙猫 VitaBench、TAU-bench、GAIA、BFCL**），为 AI 测试开发工程师提供标准化的方法论、评测数据结构（JSON Schemas）与开箱即用的自动化测试脚本。
 
 ---
 
@@ -39,10 +39,12 @@ graph TD
 
 | 领域分类 | 核心工具 / 权威基准 | 主导机构 / 仓库 | 核心评测场景与特长 |
 | :--- | :--- | :--- | :--- |
-| **真实环境代码与系统基准** | **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (普林斯顿/OpenAI) | 真实 GitHub Issue 代码修复（以 Docker 沙箱中 Unit Test 翻转为黄金标准） |
-| | **OSWorld** | [xlang-ai/OSWorld](https://github.com/xlang-ai/OSWorld) (港大/普林斯顿) | 真实 Ubuntu 操作系统多模态 GUI + CLI 跨应用（Office/Chrome/Terminal）操作基准 |
+| **自主编程 Agent 与代码基准** | **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (普林斯顿/OpenAI) | 真实 GitHub Issue 代码修复（以 Docker 沙箱中 Unit Test 翻转为黄金标准） |
+| | **OpenHands** | [All-Hands-AI/OpenHands](https://github.com/All-Hands-AI/OpenHands) | 顶尖自主编程 Agent 框架（EventStream 事件驱动 + CodeAct 代码执行模式） |
+| | **SWE-Agent** | [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) (普林斯顿大学) | 首个开创 ACI（智能体-计算机接口）的分页查看与行级精准编辑开源智能体 |
+| **系统与终端交互基准** | **OSWorld** | [xlang-ai/OSWorld](https://github.com/xlang-ai/OSWorld) (港大/普林斯顿) | 真实 Ubuntu 操作系统多模态 GUI + CLI 跨应用（Office/Chrome/Terminal）操作基准 |
 | | **Terminal-Bench** | [princeton-nlp/intercode](https://github.com/princeton-nlp/intercode) (普林斯顿/伯克利) | Linux 命令行终端 Bash 自主运维、网络排错与基于错误输出的自我纠错评测 |
-| | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (美团) | 外卖/到店/出行复杂生活服务三维 POMDP 建模、$\text{Pass}^4$ 严苛抗抖动压测 |
+| **复杂业务场景基准** | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (美团) | 外卖/到店/出行复杂生活服务三维 POMDP 建模、$\text{Pass}^4$ 严苛抗抖动压测 |
 | | **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Stanford/Sierra) | 智能客服环境状态验证（真实数据库事务回滚与防越权检查） |
 | | **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/HF) | 通用个人助手长链路多模态、多步骤文件/代码综合处理基准（反向图灵测试） |
 | | **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC 伯克利) | 原生 Tool Calling / Function Calling 权威排行榜与多语言调用评测 |
@@ -60,7 +62,7 @@ graph TD
 
 | 研究成果 | 类型 | 核心创新点 / 评测意义 | 链接 |
 | :--- | :---: | :--- | :--- |
-| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-case-studies.md#一-美团-vitabench生活服务复杂交互评测基准) |
+| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、$\text{Pass}^4$ 严苛压测 | [详细解析](./docs/07-case-studies.md#四-美团-vitabench生活服务复杂交互评测基准) |
 | **LongCat-Next** | 顶会论文 | *Lexicalizing Modalities as Discrete Tokens*：原生统一离散多模态自回归架构 | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | 技术报告 | 高并发实时业务极致低时延推理、MoE 稀疏优化与长上下文 KV 压缩 | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
 
@@ -76,9 +78,10 @@ graph TD
 | [**04. 核心零件评测**](./docs/04-component-eval.md) | Prompt / RAG / 工具 / 规划单体验证 | RAG 忠实度、Tool Calling 防幻觉反例、规划反思错误 |
 | [**05. 系统级集成**](./docs/05-system-integration.md) | 轨迹比对、多轮对抗与团队消融 | 5 档轨迹严格度、动态 User Simulator、多 Agent 消融实验 |
 | [**06. 发布与运维**](./docs/06-release-and-ops.md) | 5 大发布闸门红线与线上可观测性 | 质量/时延/安全红线、灰度放量、数据飞轮回归闭环 |
-| [**07. 前沿案例**](./docs/07-case-studies.md) | 工业界与学术界顶尖基准深度拆解 | SWE-bench、OSWorld、Terminal-Bench、美团 LongCat、TAU-bench |
+| [**07. 前沿案例与数据结构**](./docs/07-case-studies.md) | 权威基准深度拆解与 JSON Schemas | SWE-bench、OSWorld、Terminal-Bench、美团 LongCat、TAU-bench |
 | [**08. 高频面试题**](./docs/08-interview-cards.md) | 23 道 Agent 评测核心面试题与答题卡片 | 涵盖概念、方法、指标、工程落地全景解析 |
 | [**09. 生态雷达**](./docs/09-awesome-tools-and-frameworks.md) | 全球 18 大 Agent 评测工具与基准矩阵 | 选型对比表、功能矩阵与测试开发团队最佳落地路径 |
+| [**10. 自主编程 Agent 专题**](./docs/10-autonomous-coding-agents.md) | OpenHands 与 SWE-Agent 架构深度拆解 | ACI 智能体-计算机接口设计、EventStream 与 SWE-bench 实战 |
 
 ---
 
