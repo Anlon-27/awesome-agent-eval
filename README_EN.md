@@ -19,7 +19,7 @@
 
 As Large Language Models evolve from simple single-turn chatbots into autonomous **AI Agents** equipped with multi-step planning, tool calling, multi-turn interaction, and multi-agent coordination, traditional software assertions and basic Q&A evaluation metrics fall short.
 
-**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, deeply integrating global state-of-the-art frameworks (**DeepEval, Ragas, Promptfoo, Inspect AI**) and premier benchmarks (**Meituan LongCat, TAU-bench, SWE-bench, GAIA, BFCL**).
+**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, deeply integrating premier global benchmarks (**SWE-bench, OSWorld, Terminal-Bench, Meituan LongCat, TAU-bench, GAIA, BFCL**) and production-grade testing frameworks (**DeepEval, Ragas, Promptfoo, Inspect AI**).
 
 ---
 
@@ -37,18 +37,20 @@ graph TD
 
 ## 🛠️ Global Agent Evaluation Ecosystem Radar
 
-| Category | Core Tool / Benchmark | Institution / Repo | Key Capabilities & Scenarios |
+| Domain | Benchmark / Framework | Institution / Repo | Core Evaluation Scope & Highlights |
 | :--- | :--- | :--- | :--- |
+| **Real Environments & Systems** | **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (Princeton/OpenAI) | Real GitHub issue resolution verified by Docker unit test flips (FAIL $\rightarrow$ PASS) |
+| | **OSWorld** | [xlang-ai/OSWorld](https://github.com/xlang-ai/OSWorld) (HKU/Princeton) | Real Ubuntu OS multi-modal GUI + CLI cross-app (Office/Chrome/Terminal) evaluation |
+| | **Terminal-Bench** | [princeton-nlp/intercode](https://github.com/princeton-nlp/intercode) (Princeton/Berkeley) | Linux Bash terminal sysadmin, troubleshooting & self-correction on execution feedback |
+| | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (Meituan) | 3D POMDP life services complexity modeling, 66 tools, $\text{Pass}^4$ stress testing |
+| | **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Stanford/Sierra) | Dynamic customer service benchmark with sandbox DB transaction rollback checks |
+| | **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/HF) | Multi-modal, multi-step complex general assistant long-horizon tasks (Reverse Turing Test) |
+| | **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC Berkeley) | Authoritative tool calling & parallel function calling leaderboard |
 | **Testing Frameworks** | **DeepEval** | [confident-ai/deepeval](https://github.com/confident-ai/deepeval) | Production-ready Agent unit testing, G-Eval custom rubrics, CI/CD integration |
 | | **Ragas** | [explodinggradients/ragas](https://github.com/explodinggradients/ragas) | Standard for RAG retrieval quality, faithfulness & multi-agent communication |
 | | **Promptfoo** | [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) | Blazing-fast CLI for prompt iteration and automated red-teaming security scans |
 | | **Inspect AI** | [UK-AI-Safety-Institute/inspect_ai](https://github.com/UK-AI-Safety-Institute/inspect_ai) | UK AISI framework for enterprise/government safety & long-horizon capability eval |
 | | **DSPy** | [stanfordnlp/dspy](https://github.com/stanfordnlp/dspy) | Stanford framework for metric-driven programmatic prompt compilation & auto-tuning |
-| **Interactive Benchmarks** | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (Meituan) | 3D POMDP life services complexity modeling, 66 tools, $\text{Pass}^4$ stress testing |
-| | **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Stanford/Sierra) | Dynamic customer service benchmark with sandbox DB transaction rollback checks |
-| | **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (Princeton) | Real GitHub issue resolution evaluated by Docker unit test flips |
-| | **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/HF) | Multi-modal, multi-step complex general assistant long-horizon tasks |
-| | **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC Berkeley) | Authoritative tool calling & parallel function calling leaderboard |
 | **Observability & Tracing**| **AgentOps** | [AgentOps-AI/agentops](https://github.com/AgentOps-AI/agentops) | Multi-agent execution graph tracing, loop detection, and token cost breakdown |
 | | **Phoenix** | [Arize-AI/phoenix](https://github.com/Arize-AI/phoenix) | Open-source LLM/RAG observability & UMAP semantic drift clustering |
 
@@ -74,9 +76,9 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 - [**04. Component Evaluation**](./docs/04-component-eval.md): RAG precision/recall/faithfulness, tool hallucination defense, planning reflection errors.
 - [**05. System Integration**](./docs/05-system-integration.md): 5-tier trajectory matching, dynamic multi-turn user simulation, and multi-agent ablation studies.
 - [**06. Release Gates & Observability**](./docs/06-release-and-ops.md): 5 release gates, canary deployments, and data flywheel.
-- [**07. Industry Case Studies**](./docs/07-case-studies.md): Meituan LongCat Series, TAU-bench, SWE-bench, and GAIA.
+- [**07. Industry Case Studies**](./docs/07-case-studies.md): SWE-bench, OSWorld, Terminal-Bench, Meituan LongCat Series, TAU-bench, and GAIA.
 - [**08. 23 Interview Flashcards**](./docs/08-interview-cards.md): High-frequency interview Q&A.
-- [**09. Global Ecosystem Radar**](./docs/09-awesome-tools-and-frameworks.md): 16 top toolkits & platform selection matrix.
+- [**09. Global Ecosystem Radar**](./docs/09-awesome-tools-and-frameworks.md): 18 top toolkits & platform selection matrix.
 
 ---
 

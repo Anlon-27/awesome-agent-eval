@@ -1,6 +1,6 @@
 # 09. 全球前沿 Agent 评测工具、框架与生态雷达 (Ecosystem Radar)
 
-为了让 **Awesome Agent Eval** 成为业界最权威的参考体系，本章系统梳理了全球工业界与学术界顶级机构（Stanford、Berkeley、Princeton、Meta、美团、Confident AI 等）开源的 **16 大核心评测工具、框架与平台**，并提供选型对比矩阵。
+为了让 **Awesome Agent Eval** 成为业界最权威的参考体系，本章系统梳理了全球工业界与学术界顶级机构（Stanford、Berkeley、Princeton、Meta、港大、美团、Confident AI 等）开源的 **18 大核心评测工具、框架与平台**，并提供选型对比矩阵。
 
 ---
 
@@ -11,9 +11,15 @@
 │ 1. 自动化评测流水线与单元断言库 (Testing & Eval Frameworks)                  │
 │    • DeepEval, Ragas, Promptfoo, OpenAI Evals, Inspect AI, DSPy             │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ 2. 真实交互环境基准 (Interactive Agent Benchmarks)                          │
-│    • VitaBench (美团), SWE-bench (普林斯顿), GAIA (Meta), WebArena (CMU)    │
-│    • OSWorld (港大), TAU-bench (Sierra/斯坦福), BFCL (伯克利), ToolBench    │
+│ 2. 真实交互环境与领域基准 (Interactive Agent Benchmarks)                    │
+│    • 软件工程代码修复: SWE-bench (Full / Lite / Verified) (普林斯顿)        │
+│    • 真实操作系统 GUI+CLI: OSWorld (港大 / 普林斯顿)                        │
+│    • Linux 终端与运维: Terminal-Bench / InterCode (普林斯顿 / 伯克利)       │
+│    • 复杂生活服务决策: VitaBench (美团龙猫)                                 │
+│    • 智能客服环境状态验证: TAU-bench (Sierra / 斯坦福)                      │
+│    • 个人助理通用长链路: GAIA (Meta / HF)                                   │
+│    • 原生工具调用能力: BFCL (UC 伯克利 Gorilla)                             │
+│    • 超大规模真实 API 调度: ToolBench (清华大学)                            │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │ 3. 线上可观测性与实时评测平台 (LLM/Agent Observability & Tracing)           │
 │    • AgentOps, Arize Phoenix, LangSmith, Trulens                            │
@@ -39,13 +45,14 @@
 
 | 基准名称 | 主导机构 / 开源地址 | 评测场景与环境 | 为什么权威？（核心评测设计） |
 | :--- | :--- | :--- | :--- |
+| **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) (普林斯顿/OpenAI) | 真实 GitHub Issue 代码修复 (Software Engineering) | 包含 2,294 个真实 Issue，**以 Docker 沙箱中 Unit Test 是否从 Fail 翻转为 Pass 为唯一黄金标准** |
+| **OSWorld** | [xlang-ai/OSWorld](https://github.com/xlang-ai/OSWorld) (港大/普林斯顿) | 真实计算机操作系统 (Ubuntu GUI + CLI + Office/Web) | 跨应用（Chrome/LibreOffice/VS Code/Terminal）真实操作，以 OS 最终系统文件与状态严格断言 |
+| **Terminal-Bench** | [princeton-nlp/intercode](https://github.com/princeton-nlp/intercode) (普林斯顿/伯克利) | Linux 命令行终端 (Bash / Shell) 运维与调试 | 基于 Docker 终端交互反馈回路，评估 Agent 在错误发生时的**自我纠错（Self-Correction）**能力 |
 | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (美团) | 外卖点餐、到店餐饮、酒旅出行三大复杂生活服务 | **POMDP 三维复杂度建模**、66 工具与 512 依赖边、$\text{Pass}^4$ 严苛抗抖动压测 |
-| **SWE-bench** | [princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench) | 真实 GitHub 开源仓库 Bug 修复 (Software Engineering) | 包含 2,294 个真实 Issue，**以真实 Docker 沙箱中跑 Unit Test 是否通过为唯一黄金标准** |
-| **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta / AutoGPT / HF) | 通用多模态多步骤复杂个人助理任务 | 题目设计对人类极其简单（人类成功率 92%），对 Agent 极具挑战（多模态、网页检索、复杂 Excel/PDF 处理） |
-| **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC 伯克利) | 原生 Tool Calling / Function Calling 权威排行榜 | 涵盖单工具、多工具、并行调用、多语言（Java/Python/REST）与沙箱真实执行 |
-| **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Sierra / 斯坦福) | 真实电商与航空公司客服动态会话基准 | 引入 **环境状态数据库事务回滚** 与动态用户模拟器，精准评估 Agent 是否超额退款或破坏数据约束 |
-| **WebArena** | [web-arena-x/webarena](https://github.com/web-arena-x/webarena) (CMU) | 动态真实网站端到端操作 (电商/论坛/GitLab/地图) | 真实浏览器操作（点击、输入、导航），以最终网页 DOM 状态与服务器数据库状态变化判分 |
-| **OSWorld** | [xlang-ai/OSWorld](https://github.com/xlang-ai/OSWorld) (港大 / 普林斯顿) | 真实计算机操作系统 (Ubuntu GUI / CLI / Office) | 跨应用综合操作（如修改 Excel 图表后发送邮件），以 OS 最终系统文件与状态判定通过 |
+| **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Sierra/斯坦福) | 真实电商与航空公司客服动态会话基准 | 引入 **环境状态数据库事务回滚** 与动态用户模拟器，精准评估 Agent 是否超额退款或破坏数据约束 |
+| **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/AutoGPT/HF) | 通用多模态多步骤复杂个人助理任务 | 题目设计对人类极易（92%通过率），对 Agent 极具挑战（多模态、网页检索、复杂 Excel/PDF 处理） |
+| **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC 伯克利) | 原生 Tool Calling / Function Calling 权威排行榜 | 涵盖单工具、多工具、并行并发调用、多语言与沙箱真实执行 |
+| **WebArena** | [web-arena-x/webarena](https://github.com/web-arena-x/webarena) (CMU) | 动态真实网站端到端操作 (电商/论坛/GitLab) | 真实浏览器操作（点击、输入、导航），以最终网页 DOM 状态与服务器数据库状态变化判分 |
 | **ToolBench** | [OpenBMB/ToolBench](https://github.com/OpenBMB/ToolBench) (清华大学) | 超大规模真实 API 调度与组合 | 收录了 **16,000+ 个真实世界 RESTful API**，构建海量工具交互决策图谱 |
 
 ---
@@ -58,15 +65,3 @@
 | **Phoenix** | [Arize-AI/phoenix](https://github.com/Arize-AI/phoenix) | 完全开源的 LLM/RAG 可观测性平台，支持检索切片可视化、Umap 语义漂移聚类分析 |
 | **LangSmith** | [LangChain LangSmith](https://smith.langchain.com/) | 工业界最成熟的 Trace 监控、离线标注与数据集回灌流水线平台 |
 | **TruLens** | [truera/trulens](https://github.com/truera/trulens) | 基于 RAG Triad（三元组：上下文相关性、接地忠实度、回答相关性）的实时评测框架 |
-
----
-
-## 🎯 工业界测试开发团队的最佳选型落地路径
-
-```mermaid
-graph LR
-    A["1. 离线单元评测与 CI/CD<br/>选用: DeepEval + Pytest"] --> B["2. RAG 深度检索诊断<br/>选用: Ragas"]
-    B --> C["3. 业务端到端仿真测试<br/>参考: VitaBench + TAU-bench 模拟器"]
-    C --> D["4. 线上可观测性监控<br/>选用: AgentOps / Phoenix 抓取 Bad Case"]
-    D -->|数据飞轮回灌| A
-```
