@@ -49,7 +49,7 @@ This project covers **core NLP/LLM metrics (Accuracy, BLEU, BERTScore, NDCG)**, 
 
 | Metric Name | Mathematical Principles | Target Scenarios | Official GitHub / Libraries |
 | :--- | :--- | :--- | :--- |
-| **Accuracy** | Proportion of correct predictions ($\frac{TP+TN}{Total}$) | Multiple choice (MMLU), Classification | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
+| **Accuracy** | Proportion of correct predictions ((TP + TN) / Total) | Multiple choice (MMLU), Classification | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **Exact Match (EM)** | 100% exact match after normalization | Tool names, slot extraction, status codes | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
 | **BLEU (1~4)** | Modified n-gram precision + Brevity Penalty (BP) | Machine translation, code gen (HumanEval) | [`nltk`](https://github.com/nltk/nltk) / [`sacrebleu`](https://github.com/mjpost/sacrebleu) |
 | **ROUGE (1/2/L)** | Longest Common Subsequence (LCS) recall-oriented | Text summarization, document synthesis | [`google-research/rouge`](https://google-research/rouge) |
@@ -73,7 +73,7 @@ This project covers **core NLP/LLM metrics (Accuracy, BLEU, BERTScore, NDCG)**, 
 | | **SWE-Agent** | [princeton-nlp/SWE-agent](https://github.com/princeton-nlp/SWE-agent) (Princeton) | Pioneer of Agent-Computer Interface (ACI) with paginated viewing and line-level editing |
 | | **OSWorld** | [xlang-ai/OSWorld](https://github.com/xlang-ai/OSWorld) (HKU/Princeton) | Real Ubuntu OS multi-modal GUI + CLI cross-app (Office/Chrome/Terminal) evaluation |
 | | **Terminal-Bench** | [princeton-nlp/intercode](https://github.com/princeton-nlp/intercode) (Princeton/Berkeley) | Linux Bash terminal sysadmin, troubleshooting & self-correction on execution feedback |
-| **Domain Benchmarks** | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (Meituan) | 3D POMDP life services complexity modeling, 66 tools, $\text{Pass}^4$ stress testing |
+| **Domain Benchmarks** | **VitaBench** | [meituan-longcat](https://github.com/meituan-longcat) (Meituan) | 3D POMDP life services complexity modeling, 66 tools, `Pass^4` stress testing |
 | | **TAU-bench** | [sierra-research/tau-bench](https://github.com/sierra-research/tau-bench) (Stanford/Sierra) | Dynamic customer service benchmark with sandbox DB transaction rollback checks |
 | | **GAIA** | [gaia-benchmark](https://huggingface.co/spaces/gaia-benchmark/leaderboard) (Meta/HF) | Multi-modal, multi-step complex general assistant long-horizon tasks (Reverse Turing Test) |
 | | **BFCL** | [Gorilla-LLM/BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) (UC Berkeley) | Authoritative tool calling & parallel function calling leaderboard |
@@ -86,7 +86,7 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 
 | Project / Paper | Category | Core Contribution & Eval Significance | Links |
 | :--- | :---: | :--- | :--- |
-| **VitaBench** | Benchmark | 3D POMDP task complexity modeling, 66-tool dependency graph, and $\text{Pass}^4$ stress testing | [Deep Dive](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
+| **VitaBench** | Benchmark | 3D POMDP task complexity modeling, 66-tool dependency graph, and `Pass^4` stress testing | [Deep Dive](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
 | **LongCat-Next** | Paper | *Lexicalizing Modalities as Discrete Tokens*: Native unified multimodal discrete autoregression | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | Tech Report | Ultra-low latency online inference architecture, MoE routing, and long-context KV compression | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
 

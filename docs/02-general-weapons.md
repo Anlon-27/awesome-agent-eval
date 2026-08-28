@@ -8,14 +8,14 @@
 
 | 指标名称 | 计算原理与数学公式 | 适用场景 | 官方开源库 / 对应 GitHub |
 | :--- | :--- | :--- | :--- |
-| **Accuracy (准确率)** | $\text{Acc} = \frac{TP + TN}{TP + TN + FP + FN}$（预测对的样本比例） | 分类、单选/多选题 (MMLU) | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
-| **Exact Match (EM)** | $\text{EM} = \mathbb{I}(\text{normalize}(\hat{y}) == \text{normalize}(y))$（100% 严格一致） | 问答抽取 (SQuAD)、工具名、状态码 | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
-| **F1 Score** | $F_1 = 2 \cdot \frac{P \cdot R}{P + R}$（Token 级别的精确率与召回率调和平均） | 槽位抽取、信息提取、命名实体识别 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`seqeval`](https://github.com/chakki-works/seqeval) |
+| **Accuracy (准确率)** | `Acc = (TP + TN) / Total`（预测对的样本比例） | 分类、单选/多选题 (MMLU) | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
+| **Exact Match (EM)** | `EM = 1 if pred == target else 0`（100% 严格一致） | 问答抽取 (SQuAD)、工具名、状态码 | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
+| **F1 Score** | `F1 = 2 * (P * R) / (P + R)`（Token 级别的精确率与召回率调和平均） | 槽位抽取、信息提取、命名实体识别 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`seqeval`](https://github.com/chakki-works/seqeval) |
 | **BLEU (1~4)** | 基于 Modified n-gram 匹配精确率，带简短惩罚因子（Brevity Penalty, BP） | 机器翻译、代码生成 (HumanEval) | [`nltk.translate.bleu_score`](https://github.com/nltk/nltk) / [`sacrebleu`](https://github.com/mjpost/sacrebleu) |
 | **ROUGE (1/2/L)** | 基于最长公共子序列（LCS）的召回率导向度量 | 文本摘要、长文档提炼、新闻总结 | [`google-research/rouge`](https://github.com/google-research/google-research/tree/master/rouge) / [`rouge-score`](https://github.com/google-research/google-research) |
 | **BERTScore** | 计算候选句与参考句在预训练模型（如 RoBERTa）词向量空间中的最大余弦相似度 | 开放式问答、释义生成、语义相似度 | [`Tiiiger/bert_score`](https://github.com/Tiiiger/bert_score) *(ICLR 2020)* |
 | **BLEURT** | 基于 BERT 并在合成语料与人类打分上微调的端到端学习型文本质量度量 | 深度语义对齐、高质量机器翻译评测 | [`google-research/bleurt`](https://github.com/google-research/bleurt) *(ACL 2020)* |
-| **Perplexity (PPL)** | $\text{PPL}(W) = \exp\left(-\frac{1}{N}\sum \log P(w_i \mid w_{<i})\right)$（困惑度/混乱度） | 语言模型基础建模能力、流畅度度量 | [`huggingface/transformers`](https://github.com/huggingface/transformers) |
+| **Perplexity (PPL)** | 语言模型在测试集上的平均困惑度/混乱度（Loss 的指数） | 语言模型基础建模能力、流畅度度量 | [`huggingface/transformers`](https://github.com/huggingface/transformers) |
 | **NDCG@k / MRR** | 归一化折损累计增益（NDCG）与平均倒数排名（MRR） | RAG 知识检索切片排序质量、搜索召回 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`ranx`](https://github.com/AmenDa/ranx) |
 
 ---
@@ -25,7 +25,7 @@
 ### 1. BERTScore：攻克传统 BLEU/ROUGE 的“同义词盲区”
 * **传统指标痛点**：BLEU 和 ROUGE 依赖字面词重叠，当模型输出同义词时（如“北京天气非常炎热” vs “帝都气候酷暑难耐”），字面重叠为 0，BLEU 得分极低！
 * **BERTScore 解决机制**：
-  * 利用 Contextual Embedding 计算每个 Token 与参考句中所有 Token 的最大余弦相似度，生成精确率（$P_{\text{BERT}}$）、召回率（$R_{\text{BERT}}$）与 $F_{\text{BERT}}$；
+  * 利用 Contextual Embedding 计算每个 Token 与参考句中所有 Token 的最大余弦相似度，生成精确率（P_BERT）、召回率（R_BERT）与 F_BERT；
   * **代码调用示例**：
     ```python
     from bert_score import score
