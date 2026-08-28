@@ -28,31 +28,72 @@ This project covers **core NLP/LLM metrics (Accuracy, BLEU, BERTScore, NDCG)**, 
 ## 🧭 5-Stage Progressive Learning Roadmap
 
 ```mermaid
-graph TD
-    subgraph STAGE1["Stage 1: Foundations & Core Metrics"]
-        D1["01. 5 Core Dilemmas & EDD"] --> D2["02. Core Metrics: Accuracy / BLEU / BERTScore / LLM Judge"]
-    end
+flowchart TD
+    classDef stageBox fill:#f8fafc,stroke:#3b82f6,stroke-width:2px,rx:8px,ry:8px;
+    classDef stepNode fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#0f172a;
 
-    subgraph STAGE2["Stage 2: Model Selection & Component Evals"]
-        D2 --> D3["03. Model Selection, Capability Profiling & TCO Tiering"]
-        D3 --> D4["04. 4 Component Evals (Prompt / RAG / Tools / Planning)"]
-        D4 --> D5["05. 4 Core Engineering Dimensions (RAG / Perturbation / Schema / Fallbacks)"]
+    subgraph S1["📘 Stage 1: Foundations & Core Metrics"]
+        direction TB
+        N1["01. 5 Core Dilemmas & EDD"]
+        N2["02. Core Metrics: Accuracy / BLEU / BERTScore / LLM Judge"]
+        N1 --> N2
     end
+    class S1 stageBox;
+    class N1,N2 stepNode;
 
-    subgraph STAGE3["Stage 3: System Integration & Frontier Benchmarks"]
-        D5 --> D6["06. System Integration (5-Tier Trajectory / User Simulator / Multi-Agent Ablation)"]
-        D6 --> D7["07. Global Benchmark Schemas (SWE-bench / OSWorld / Terminal / VitaBench)"]
-        D7 --> D8["08. Autonomous Coding Agents (OpenHands & SWE-Agent ACI Architectures)"]
+    subgraph S2["⚙️ Stage 2: Model Selection & Component Evals"]
+        direction TB
+        N3["03. Model Selection, Capability Profiling & TCO Tiering"]
+        N4["04. 4 Component Evals (Prompt / RAG / Tools / Planning)"]
+        N5["05. 4 Core Engineering Dimensions (RAG / Perturbation / Schema / Fallbacks)"]
+        N3 --> N4 --> N5
     end
+    class S2 stageBox;
+    class N3,N4,N5 stepNode;
 
-    subgraph STAGE4["Stage 4: Platforms, Release Gates & Ecosystem"]
-        D8 --> D9["09. 5 Release Quality Gates, A/B Testing & Data Flywheel"]
-        D9 --> D10["10. Evaluation Platforms (OpenCompass/LM-Eval) & Platform Architecture"]
+    subgraph S3["🚀 Stage 3: System Integration & Frontier Benchmarks"]
+        direction TB
+        N6["06. System Integration (5-Tier Trajectory / User Simulator / Multi-Agent Ablation)"]
+        N7["07. Global Benchmark Schemas (SWE-bench / OSWorld / Terminal / VitaBench)"]
+        N8["08. Autonomous Coding Agents (OpenHands & SWE-Agent ACI Architectures)"]
+        N6 --> N7 --> N8
     end
+    class S3 stageBox;
+    class N6,N7,N8 stepNode;
 
-    subgraph STAGE5["Stage 5: Deep-Dive FAQs & Best Practices"]
-        D10 --> D11["11. 23 In-Depth Engineering FAQs & Anti-Pattern Solutions"]
+    subgraph S4["🛡️ Stage 4: Production Platforms & Ecosystem"]
+        direction TB
+        N9["09. 5 Release Quality Gates, A/B Testing & Data Flywheel"]
+        N10["10. Evaluation Platforms (OpenCompass/LM-Eval) & Platform Architecture"]
+        N9 --> N10
     end
+    class S4 stageBox;
+    class N9,N10 stepNode;
+
+    subgraph S5["💡 Stage 5: Deep-Dive FAQs & Best Practices"]
+        direction TB
+        N11["11. 23 In-Depth Engineering FAQs & Anti-Pattern Solutions"]
+    end
+    class S5 stageBox;
+    class N11 stepNode;
+
+    S1 ==> S2 ==> S3 ==> S4 ==> S5
+```
+
+---
+
+## 🧭 Evaluation Landscape
+
+```mermaid
+flowchart LR
+    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1px,color:#1e293b;
+
+    A["🎯 Evaluation-Driven Development (EDD)"] --> B["1. Model Selection<br/>• Capability profiling<br/>• Hard constraints & TCO tiering<br/>• Private dataset double-blind tests"]
+    B --> C["2. Component Evals<br/>• Prompt perturbation robustness<br/>• RAG 2-stage (Retrieval vs Generation)<br/>• Tool Calling 4-check & negative cases<br/>• Planning failure mode attribution"]
+    C --> D["3. System Integration<br/>• Final outcomes (Pass@k vs Pass^k)<br/>• 5-tier trajectory matching<br/>• Dynamic User Simulator goal gaming<br/>• Multi-agent coordination ablation"]
+    D --> E["4. Release & Ops<br/>• 5 release quality gates<br/>• Production A/B canary testing<br/>• Graceful fallback (API 500 error shielding)<br/>• Bad-case regression flywheel"]
+
+    class B,C,D,E cardStyle;
 ```
 
 ---

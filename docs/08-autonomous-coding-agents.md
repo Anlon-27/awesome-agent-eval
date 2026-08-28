@@ -1,4 +1,4 @@
-# 10. OpenHands 与 SWE-Agent：自主编程智能体架构设计、ACI 接口与 SWE-bench 评测实战
+# 08. OpenHands 与 SWE-Agent：自主编程智能体架构设计、ACI 接口与 SWE-bench 评测实战
 
 在以 **SWE-bench** 为代表的复杂软件工程评测中，仅靠简单的“对话式大模型”远远无法解决实际代码仓库中的 Bug。业界诞生了以 **OpenHands (原 OpenDevin)** 和 **SWE-Agent** 为代表的顶级自主编程智能体（Autonomous Software Engineering Agents）。
 

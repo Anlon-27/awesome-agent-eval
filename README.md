@@ -21,38 +21,80 @@
 
 **Awesome Agent Eval** 旨在构建一个**工业级、端到端、零基础到精通的 AI Agent 评测体系与实操框架**。
 
-本项目不仅系统覆盖**核心度量指标（Accuracy、BLEU、BERTScore、NDCG）** 与 **主流评测框架（OpenCompass、LM-Eval-Harness、DeepEval、Ragas）**，更提供 **企业级评测平台架构开发方案、开箱即用的自动化测试脚本、标准数据结构（JSON Schemas）与前沿基准深度剖析**。
+本项目不仅系统覆盖 **NLP/LLM 核心度量指标（Accuracy、BLEU、BERTScore、NDCG）** 与 **主流评测框架（OpenCompass、LM-Eval-Harness、DeepEval、Ragas）**，更提供 **企业级评测平台 5 层架构设计、开箱即用的自动化测试脚本、标准数据结构（JSON Schemas）与前沿基准深度剖析**。
 
 ---
 
 ## 🧭 5 阶渐进式学习路线图 (Progressive Learning Roadmap)
 
 ```mermaid
-graph TD
-    subgraph STAGE1["第一阶段：认知建立与度量武器库 (Foundations)"]
-        D1["01. Agent 评测 5 大困境与评估驱动开发 (EDD)"] --> D2["02. 核心指标与武器库: Accuracy / BLEU / BERTScore / LLM Judge"]
-    end
+flowchart TD
+    classDef stageBox fill:#f8fafc,stroke:#3b82f6,stroke-width:2px,rx:8px,ry:8px;
+    classDef stepNode fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#0f172a;
 
-    subgraph STAGE2["第二阶段：选型与零件单体测试 (Components)"]
-        D2 --> D3["03. 基模选型四步法、能力画像与 TCO 架构降本"]
-        D3 --> D4["04. 四大核心零件单体评测 (Prompt / RAG / 工具 / 规划)"]
-        D4 --> D5["05. 四大核心工程质量维度 (RAG 效果 / 扰动稳定性 / 返回质量 / 异常兜底)"]
+    subgraph S1["📘 阶段一：认知建立与度量底座 (Foundations)"]
+        direction TB
+        N1["01. Agent 评测 5 大困境与评估驱动开发 (EDD)"]
+        N2["02. 核心指标与武器库: Accuracy / BLEU / BERTScore / LLM Judge"]
+        N1 --> N2
     end
+    class S1 stageBox;
+    class N1,N2 stepNode;
 
-    subgraph STAGE3["第三阶段：系统集成与前沿基准 (System & Benchmarks)"]
-        D5 --> D6["06. 系统级集成评测 (5 档轨迹比对 / 动态 User Simulator / 多 Agent 消融)"]
-        D6 --> D7["07. 全球权威基准拆解与 JSON Schemas (SWE-bench/OSWorld/Terminal/VitaBench)"]
-        D7 --> D8["08. 自主编程智能体专题 (OpenHands 与 SWE-Agent 架构与 ACI 实战)"]
+    subgraph S2["⚙️ 阶段二：选型与零件单体测试 (Components)"]
+        direction TB
+        N3["03. 基模选型四步法、能力画像与 TCO 架构降本"]
+        N4["04. 四大核心零件单体评测 (Prompt / RAG / 工具 / 规划)"]
+        N5["05. 四大核心工程质量维度 (RAG 效果 / 扰动稳定性 / 返回质量 / 异常兜底)"]
+        N3 --> N4 --> N5
     end
+    class S2 stageBox;
+    class N3,N4,N5 stepNode;
 
-    subgraph STAGE4["第四阶段：发布闸门与评测平台 (Production & Platforms)"]
-        D8 --> D9["09. 5 大发布闸门红线、线上 A/B 灰度与数据飞轮"]
-        D9 --> D10["10. 全球主流评测框架 (OpenCompass/LM-Eval) 与评测平台架构实战"]
+    subgraph S3["🚀 阶段三：系统集成与前沿基准 (System & Benchmarks)"]
+        direction TB
+        N6["06. 系统级集成评测 (5 档轨迹比对 / 动态 User Simulator / 多 Agent 消融)"]
+        N7["07. 全球权威基准拆解与 JSON Schemas (SWE-bench/OSWorld/Terminal/VitaBench)"]
+        N8["08. 自主编程智能体专题 (OpenHands 与 SWE-Agent 架构与 ACI 实战)"]
+        N6 --> N7 --> N8
     end
+    class S3 stageBox;
+    class N6,N7,N8 stepNode;
 
-    subgraph STAGE5["第五阶段：疑难解答与最佳实践 (FAQs & Best Practices)"]
-        D10 --> D11["11. 核心疑难问题深度解析与工业界避坑最佳实践 FAQ"]
+    subgraph S4["🛡️ 阶段四：发布闸门与评测平台 (Production & Platforms)"]
+        direction TB
+        N9["09. 5 大发布闸门红线、线上 A/B 灰度与数据飞轮"]
+        N10["10. 全球主流评测框架 (OpenCompass/LM-Eval) 与评测平台 5 层架构实战"]
+        N9 --> N10
     end
+    class S4 stageBox;
+    class N9,N10 stepNode;
+
+    subgraph S5["💡 阶段五：疑难解答与最佳实践 (FAQs & Best Practices)"]
+        direction TB
+        N11["11. 核心疑难问题深度解析与工业界避坑最佳实践 FAQ"]
+    end
+    class S5 stageBox;
+    class N11 stepNode;
+
+    S1 ==> S2 ==> S3 ==> S4 ==> S5
+```
+
+---
+
+## 🧭 Agent 评测全生命周期架构图 (Evaluation Landscape)
+
+```mermaid
+flowchart LR
+    classDef groupStyle fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,rx:6px,ry:6px;
+    classDef cardStyle fill:#ffffff,stroke:#94a3b8,stroke-width:1px,color:#1e293b;
+
+    A["🎯 评估驱动开发 (EDD)"] --> B["1. 选型期 (Selection)<br/>• 场景反推能力画像<br/>• 硬门槛初筛 + TCO 架构降本<br/>• 私有业务数据集双盲测试"]
+    B --> C["2. 组件单体 (Component)<br/>• 提示词扰动稳定性测试<br/>• RAG 检索段/生成段双段法<br/>• Tool Calling 4 项核对与反例<br/>• Planning 3 大失败模式归因"]
+    C --> D["3. 系统集成 (System)<br/>• 任务终态 (Pass@k vs Pass^k)<br/>• 5 档轨迹严格度比对<br/>• 动态 User Simulator 隐藏目标卡<br/>• 多 Agent 协作评测与消融实验"]
+    D --> E["4. 发布监控 (Ops)<br/>• 5 大发布闸门红线 (质量/成本/安全)<br/>• 线上 A/B 真实业务流量放量<br/>• 异常优雅降级 (API 500 熔断)<br/>• Bad Case 自动回灌数据飞轮"]
+
+    class B,C,D,E cardStyle;
 ```
 
 ---
