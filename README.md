@@ -19,7 +19,7 @@
 
 随着大语言模型从单轮问答演进为具备“自主规划、工具调用、多轮交互、多智能体协作”的 **AI Agent**，传统的确定性软件测试与简单的问答评测已经完全失效。
 
-**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的权威评测体系与实操框架**。深度整合全球学术界与工业界顶级开源框架（**DeepEval、Ragas、OpenHands、SWE-agent**）以及最硬核的权威基准（**SWE-bench、OSWorld、Terminal-Bench、美团龙猫 VitaBench、TAU-bench、GAIA、BFCL**），为 AI 测试开发工程师提供标准化的方法论、评测数据结构（JSON Schemas）与开箱即用的自动化测试脚本。
+**Awesome Agent Eval** 旨在构建一个**工业级、端到端、贯穿 Agent 全生命周期（选型 ➔ 零件 ➔ 轨迹 ➔ 发布 ➔ 监控）的权威评测体系与实操框架**。深度覆盖 **RAG 检索效果诊断、提示词扰动鲁棒性、模型结构化返回质量（JSON Schema）与生产级异常兜底容错**，并无缝融合全球前沿框架（**DeepEval、Ragas、OpenHands、SWE-agent**）与权威基准（**SWE-bench、OSWorld、Terminal-Bench、美团龙猫 VitaBench、TAU-bench**）。
 
 ---
 
@@ -28,9 +28,9 @@
 ```mermaid
 graph TD
     A["Agent 全生命周期评估驱动开发 (EDD)"] --> B["1. 选型期 (Model Selection)<br/>• 场景反推能力画像与权重配比<br/>• 硬门槛初筛 + TCO 架构分层<br/>• 私有业务数据集双盲测试"]
-    A --> C["2. 组件评测 (Component Eval)<br/>• Prompt 变体与鲁棒性评测<br/>• RAG 双段法 (检索段 vs 生成段)<br/>• Tool Calling 4 项核对 + 防幻觉反例<br/>• Planning 3 大典型失败模式归因"]
+    A --> C["2. 组件评测 (Component Eval)<br/>• 提示词扰动稳定性与鲁棒性<br/>• RAG 双段法 (Context Precision/Recall vs 忠实度)<br/>• Tool Calling 4 项核对 + 防幻觉反例<br/>• Planning 3 大典型失败模式归因"]
     A --> D["3. 系统集成 (System Eval)<br/>• 任务终态 (Pass@k vs Pass^k)<br/>• 轨迹评测 (5 档严格度比对)<br/>• 动态 User Simulator + 隐藏目标卡<br/>• 多 Agent 协作评测与消融实验"]
-    A --> E["4. 发布与运维 (Release & Ops)<br/>• 5 大发布闸门红线 (质量/成本/安全)<br/>• 线上 A/B 测试 (真实业务流量裁决)<br/>• 可观测性三件套 (Logs/Traces/Metrics)<br/>• Bad Case 回灌离线基准集形成数据飞轮"]
+    A --> E["4. 发布与运维 (Release & Ops)<br/>• 5 大发布闸门红线 (质量/成本/安全)<br/>• 线上 A/B 测试 (真实业务流量裁决)<br/>• 异常优雅降级 (API 500 兜底与防堆栈泄露)<br/>• Bad Case 回灌离线基准集形成数据飞轮"]
 ```
 
 ---
@@ -82,19 +82,11 @@ graph TD
 | [**08. 高频面试题**](./docs/08-interview-cards.md) | 23 道 Agent 评测核心面试题与答题卡片 | 涵盖概念、方法、指标、工程落地全景解析 |
 | [**09. 生态雷达**](./docs/09-awesome-tools-and-frameworks.md) | 全球 18 大 Agent 评测工具与基准矩阵 | 选型对比表、功能矩阵与测试开发团队最佳落地路径 |
 | [**10. 自主编程 Agent 专题**](./docs/10-autonomous-coding-agents.md) | OpenHands 与 SWE-Agent 架构深度拆解 | ACI 智能体-计算机接口设计、EventStream 与 SWE-bench 实战 |
+| [**11. 四大工程质量维度**](./docs/11-core-quality-dimensions.md) | RAG 效果、提示词鲁棒性、返回质量与异常兜底 | 扰动测试、JSON 结构合规、API 500 优雅降级与熔断防护 |
 
 ---
 
 ## ⚡ 极速上手：运行自动化评测代码 (Quick Start)
-
-### 1. 克隆代码仓库并安装依赖
-```bash
-git clone https://github.com/Anlon-27/awesome-agent-eval.git
-cd awesome-agent-eval
-pip install -r requirements.txt
-```
-
-### 2. 运行开箱即用的评测用例 (基于 Python & Pytest)
 
 ```bash
 # 1. 运行工具调用精准度与防幻觉测试
@@ -108,6 +100,9 @@ python evals/user_simulator_demo.py
 
 # 4. 运行消除首位偏差的双盲裁判测试 (Position-Swap Judge)
 python evals/swap_judge_demo.py
+
+# 5. 运行提示词扰动鲁棒性、JSON Schema 校验与 API 500 异常兜底测试
+python evals/robustness_and_fallback_demo.py
 ```
 
 ---

@@ -19,7 +19,7 @@
 
 As Large Language Models evolve from simple single-turn chatbots into autonomous **AI Agents** equipped with multi-step planning, tool calling, multi-turn interaction, and multi-agent coordination, traditional software assertions and basic Q&A evaluation metrics fall short.
 
-**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, deeply integrating premier global benchmarks (**SWE-bench, OSWorld, Terminal-Bench, Meituan LongCat, TAU-bench, GAIA, BFCL**), autonomous coding agents (**OpenHands, SWE-agent**), and production testing frameworks (**DeepEval, Ragas, Promptfoo, Inspect AI**).
+**Awesome Agent Eval** provides an **industry-grade, end-to-end evaluation framework across the entire Agent lifecycle (Model Selection ➔ Component Testing ➔ Trajectory Evaluation ➔ Release Gates ➔ Production Observability)**, deeply covering **RAG retrieval effectiveness, prompt perturbation robustness, JSON schema integrity, and exception fallback guardrails**.
 
 ---
 
@@ -28,9 +28,9 @@ As Large Language Models evolve from simple single-turn chatbots into autonomous
 ```mermaid
 graph TD
     A["Evaluation-Driven Development (EDD)"] --> B["1. Model Selection<br/>• Reverse-engineering capability profiles<br/>• Hard constraints & TCO tiering<br/>• Private dataset double-blind testing"]
-    A --> C["2. Component Evaluation<br/>• Prompt variants & robustness<br/>• RAG 2-stage (Retrieval vs Generation)<br/>• Tool Calling 4-check & negative cases<br/>• Planning 3-failure-mode attribution"]
+    A --> C["2. Component Evaluation<br/>• Prompt perturbation robustness<br/>• RAG 2-stage (Context Precision/Recall vs Faithfulness)<br/>• Tool Calling 4-check & negative cases<br/>• Planning 3-failure-mode attribution"]
     A --> D["3. System Integration<br/>• Final outcomes (Pass@k vs Pass^k)<br/>• Trajectory matching (5 strictness tiers)<br/>• Dynamic User Simulator + Hidden Goal Cards<br/>• Multi-agent coordination & ablation"]
-    A --> E["4. Release & Operations<br/>• 5 release quality gates (Quality/Cost/Security)<br/>• Production A/B testing (real traffic)<br/>• Observability (Logs/Traces/Metrics)<br/>• Bad-case regression flywheel"]
+    A --> E["4. Release & Operations<br/>• 5 release quality gates (Quality/Cost/Security)<br/>• Production A/B testing (real traffic)<br/>• Graceful fallback (API 500 error shielding)<br/>• Bad-case regression flywheel"]
 ```
 
 ---
@@ -82,19 +82,12 @@ We provide in-depth analysis and tracking of the Meituan LongCat team's frontier
 - [**08. 23 Interview Flashcards**](./docs/08-interview-cards.md): High-frequency interview Q&A.
 - [**09. Global Ecosystem Radar**](./docs/09-awesome-tools-and-frameworks.md): 18 top toolkits & platform selection matrix.
 - [**10. Autonomous Coding Agents**](./docs/10-autonomous-coding-agents.md): Deep dive into OpenHands and SWE-Agent ACI architectures.
+- [**11. 4 Core Engineering Dimensions**](./docs/11-core-quality-dimensions.md): RAG effectiveness, prompt perturbation, schema integrity & API 500 fallback.
 
 ---
 
 ## ⚡ Quick Start
 
-### 1. Clone & Install
-```bash
-git clone https://github.com/Anlon-27/awesome-agent-eval.git
-cd awesome-agent-eval
-pip install -r requirements.txt
-```
-
-### 2. Run Ready-to-use Evals
 ```bash
 # 1. Tool calling & negative hallucination test
 python evals/tool_eval_demo.py
@@ -107,6 +100,9 @@ python evals/user_simulator_demo.py
 
 # 4. Position-Swap debiased LLM judge
 python evals/swap_judge_demo.py
+
+# 5. Prompt perturbation, JSON Schema & API 500 fallback test
+python evals/robustness_and_fallback_demo.py
 ```
 
 ---
