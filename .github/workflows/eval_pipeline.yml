@@ -39,4 +39,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: agent-eval-report
-        path: eval_report.md\n
+        path: eval_report.md
