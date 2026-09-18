@@ -39,8 +39,6 @@ flowchart TD
         L4["L4: 多智能体协作层 (通信协议治理 / 角色漂移 / 共识收敛 / 拓扑消融)"]
         L0 --> L1 --> L2 --> L3 --> L4
     end
-    class D1 stageBox;
-    class L0,L1,L2,L3,L4 stepNode;
 
     subgraph D2["📊 维度二：指标金字塔 (4-Tier Metrics)"]
         direction TB
@@ -50,8 +48,6 @@ flowchart TD
         M4["工程非功能性 NFR (P99 时延 / Token 成本预算 / 500 降级率)"]
         M1 --- M2 --- M3 --- M4
     end
-    class D2 stageBox;
-    class M1,M2,M3,M4 stepNode;
 
     subgraph D3["⚙️ 维度三：评测引擎与沙箱 (Execution & Engine)"]
         direction TB
@@ -61,8 +57,6 @@ flowchart TD
         E4["Level 4: LLM-as-a-Judge 裁决 (G-Eval 量规 / Position-Swap 双盲)"]
         E1 --> E2 --> E3 --> E4
     end
-    class D3 stageBox;
-    class E1,E2,E3,E4 stepNode;
 
     subgraph D4["🔄 维度四：生命周期与数据飞轮 (MLOps & Flywheel)"]
         direction TB
@@ -72,8 +66,24 @@ flowchart TD
         P4["Phase 4 (Flywheel): 生产 Badcase 自动聚类 -> 敏感脱敏 -> 评测集自扩充"]
         P1 --> P2 --> P3 --> P4 --> P1
     end
-    class D4 stageBox;
-    class P1,P2,P3,P4 stepNode;
+
+    D1 -. "指标映射" .-> D2
+    D3 -. "驱动飞轮" .-> D4
+    D1 ==> D3
+    D2 ==> D4
+
+    %% 专用安全垫片：预留 100px 空白，杜绝 GitHub 悬浮缩放按钮遮挡右下角文本
+    subgraph SafePadding[" "]
+        direction LR
+        padNode["&nbsp;<br>&nbsp;<br>&nbsp;"]
+    end
+    style SafePadding fill:transparent,stroke:transparent;
+    style padNode fill:transparent,stroke:transparent,color:transparent;
+    D3 ~~~ SafePadding
+    D4 ~~~ SafePadding
+
+    class D1,D2,D3,D4 stageBox;
+    class L0,L1,L2,L3,L4,M1,M2,M3,M4,E1,E2,E3,E4,P1,P2,P3,P4 stepNode;
 ```
 
 ---

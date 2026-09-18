@@ -39,8 +39,6 @@ flowchart TD
         L4["L4: Multi-Agent Systems (Protocol / Role Drift / Consensus / Ablation)"]
         L0 --> L1 --> L2 --> L3 --> L4
     end
-    class D1 stageBox;
-    class L0,L1,L2,L3,L4 stepNode;
 
     subgraph D2["📊 Dimension 2: Metrics Pyramid"]
         direction TB
@@ -50,8 +48,6 @@ flowchart TD
         M4["Engineering NFR Tier (P99 Latency / Token Budget / Fallback Rate)"]
         M1 --- M2 --- M3 --- M4
     end
-    class D2 stageBox;
-    class M1,M2,M3,M4 stepNode;
 
     subgraph D3["⚙️ Dimension 3: Engines & Arbiters"]
         direction TB
@@ -61,8 +57,6 @@ flowchart TD
         E4["Level 4: LLM-as-a-Judge (Rubrics / Position-Swap Bias Elimination)"]
         E1 --> E2 --> E3 --> E4
     end
-    class D3 stageBox;
-    class E1,E2,E3,E4 stepNode;
 
     subgraph D4["🔄 Dimension 4: Lifecycle & Flywheel"]
         direction TB
@@ -72,8 +66,24 @@ flowchart TD
         P4["Phase 4 (Flywheel): Badcase Auto-Clustering -> Sanitization -> Testset Enrichment"]
         P1 --> P2 --> P3 --> P4 --> P1
     end
-    class D4 stageBox;
-    class P1,P2,P3,P4 stepNode;
+
+    D1 -. "Maps to" .-> D2
+    D3 -. "Drives" .-> D4
+    D1 ==> D3
+    D2 ==> D4
+
+    %% Safe bottom padding: Prevents GitHub floating zoom controller from occluding diagram nodes
+    subgraph SafePadding[" "]
+        direction LR
+        padNode["&nbsp;<br>&nbsp;<br>&nbsp;"]
+    end
+    style SafePadding fill:transparent,stroke:transparent;
+    style padNode fill:transparent,stroke:transparent,color:transparent;
+    D3 ~~~ SafePadding
+    D4 ~~~ SafePadding
+
+    class D1,D2,D3,D4 stageBox;
+    class L0,L1,L2,L3,L4,M1,M2,M3,M4,E1,E2,E3,E4,P1,P2,P3,P4 stepNode;
 ```
 
 ---

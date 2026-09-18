@@ -17,50 +17,60 @@ flowchart TD
     classDef stageBox fill:#f8fafc,stroke:#3b82f6,stroke-width:2px,rx:8px,ry:8px;
     classDef stepNode fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#0f172a;
 
-    subgraph D1["📘 维度一：评测对象分层 (What to Evaluate: L0 ~ L4)"]
+    subgraph D1["📘 维度一：评测对象分层 (L0 ~ L4)"]
         direction TB
-        L0["L0: 基座模型认知层 (Instruction Following / Reasoning / TCO 选型)"]
-        L1["L1: 原子组件单体层 (Prompt 模板 / RAG 检索生成 / Tool Schema 参数)"]
+        L0["L0: 基座模型认知层 (IFEval / 逻辑推理 / TCO 降本)"]
+        L1["L1: 原子组件单体层 (Prompt 模板 / RAG 双段法 / 工具参数)"]
         L2["L2: 规划与状态机层 (ReAct 循环 / DAG 工作流 / POMDP / 反思自愈)"]
-        L3["L3: 任务交互与环境层 (Docker 沙箱 / 数据库状态翻转 / 动态 User Sim 对抗)"]
+        L3["L3: 任务交互与环境层 (Docker 沙箱 / 数据库状态翻转 / 用户仿真器)"]
         L4["L4: 多智能体协作层 (通信协议治理 / 角色漂移 / 共识收敛 / 拓扑消融)"]
         L0 --> L1 --> L2 --> L3 --> L4
     end
-    class D1 stageBox;
-    class L0,L1,L2,L3,L4 stepNode;
 
-    subgraph D2["📊 维度二：指标金字塔 (How to Measure: 4-Tier Metrics)"]
+    subgraph D2["📊 维度二：指标金字塔 (4-Tier Metrics)"]
         direction TB
-        M1["顶层：业务价值指标 (Task Success Rate / Pass^k / 人工接管率 / 商业转化)"]
-        M2["中层：行为与过程轨迹 (有效步数比 / 工具精准率 / 规划偏航度 / 反思成功率)"]
-        M3["基底层：确定性与原子精度 (Exact Match / JSON Schema 严格合规 / 状态翻转 Diff)"]
-        M4["横切面：工程非功能性 NFR (P99 时延 / 单次任务 Token 成本 / API 500 兜底率)"]
+        M1["业务价值层 (Task Success Rate / Pass^k / 人工接管率)"]
+        M2["过程轨迹层 (有效步数比 / 工具精准率 / 规划偏航度)"]
+        M3["原子精度层 (Exact Match / JSON Schema 100% / 状态翻转 Diff)"]
+        M4["工程非功能性 NFR (P99 时延 / Token 成本预算 / 500 降级率)"]
         M1 --- M2 --- M3 --- M4
     end
-    class D2 stageBox;
-    class M1,M2,M3,M4 stepNode;
 
-    subgraph D3["⚙️ 维度三：评测执行与裁判引擎 (Execution Engine & Arbiter)"]
+    subgraph D3["⚙️ 维度三：评测引擎与沙箱 (Execution & Engine)"]
         direction TB
-        E1["Level 1: 确定性代码断言器 (Regex / Pydantic / 退出状态码 / DB Check)"]
-        E2["Level 2: 隔离容器沙箱 (Docker / Linux ACI / Mock API Server / 事务回滚)"]
-        E3["Level 3: 对抗仿真引擎 (带隐式目标、中途变卦与反脆弱攻击的 User Simulator)"]
-        E4["Level 4: LLM-as-a-Judge 裁决 (G-Eval 量规 / Position-Swap 双盲消除首位偏见)"]
+        E1["Level 1: 确定性规则与代码断言 (Regex / Pydantic / 状态码)"]
+        E2["Level 2: 隔离容器沙箱 (Docker / Linux ACI / DB 事务回滚)"]
+        E3["Level 3: 对抗仿真引擎 (带隐式目标卡与中途变卦的 User Simulator)"]
+        E4["Level 4: LLM-as-a-Judge 裁决 (G-Eval 量规 / Position-Swap 双盲)"]
         E1 --> E2 --> E3 --> E4
     end
-    class D3 stageBox;
-    class E1,E2,E3,E4 stepNode;
 
-    subgraph D4["🔄 维度四：生命周期与数据飞轮 (MLOps Lifecycle & Flywheel)"]
+    subgraph D4["🔄 维度四：生命周期与数据飞轮 (MLOps & Flywheel)"]
         direction TB
         P1["Phase 1 (Dev): 提示词微评测与 Prompt A/B 探索"]
-        P2["Phase 2 (CI/CD): 5 大发布闸门红线与自动化阻断回归流水线"]
-        P3["Phase 3 (Prod): 影子流量 (Shadow Run) 与线上灰度 A/B 实验"]
-        P4["Phase 4 (Flywheel): 线上 Badcase 自动聚类 -> 敏感脱敏 -> 评测集自扩充"]
+        P2["Phase 2 (CI/CD): 5 大发布闸门红线与阻断回归流水线"]
+        P3["Phase 3 (Prod): 影子流量 (Shadow Run) 与线上灰度 A/B"]
+        P4["Phase 4 (Flywheel): 生产 Badcase 自动聚类 -> 敏感脱敏 -> 评测集自扩充"]
         P1 --> P2 --> P3 --> P4 --> P1
     end
-    class D4 stageBox;
-    class P1,P2,P3,P4 stepNode;
+
+    D1 -. "指标映射" .-> D2
+    D3 -. "驱动飞轮" .-> D4
+    D1 ==> D3
+    D2 ==> D4
+
+    %% 专用安全垫片：预留 100px 空白，杜绝 GitHub 悬浮缩放按钮遮挡右下角文本
+    subgraph SafePadding[" "]
+        direction LR
+        padNode["&nbsp;<br>&nbsp;<br>&nbsp;"]
+    end
+    style SafePadding fill:transparent,stroke:transparent;
+    style padNode fill:transparent,stroke:transparent,color:transparent;
+    D3 ~~~ SafePadding
+    D4 ~~~ SafePadding
+
+    class D1,D2,D3,D4 stageBox;
+    class L0,L1,L2,L3,L4,M1,M2,M3,M4,E1,E2,E3,E4,P1,P2,P3,P4 stepNode;
 ```
 
 ---
