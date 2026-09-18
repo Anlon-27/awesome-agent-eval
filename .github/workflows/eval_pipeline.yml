@@ -1,0 +1,42 @@
+name: Agent Evaluation & Release Gate CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  eval-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+
+    - name: Run Core Unit Tests
+      run: |
+        pytest tests/
+
+    - name: Execute 5-Tier Release Gate Suite
+      run: |
+        python -m agent_eval.cli --out-markdown eval_report.md
+
+    - name: Upload Evaluation Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: agent-eval-report
+        path: eval_report.md\n
