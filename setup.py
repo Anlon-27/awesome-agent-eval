@@ -18,4 +18,4 @@ setup(
             'agent-eval=agent_eval.cli:main',
         ],
     },
-)\n
+)
