@@ -1,56 +1,40 @@
 [
   {
-    "case_id": "TC-TOOL-001",
-    "description": "标准工具调用 - 查询天气",
-    "query": "请帮我查一下明天北京的天气怎么样？",
-    "available_tools": [
-      {
-        "name": "get_weather",
-        "description": "查询指定城市和日期的天气信息",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "city": { "type": "string", "description": "城市名称，如：北京" },
-            "date": { "type": "string", "description": "查询日期，格式：YYYY-MM-DD" }
-          },
-          "required": ["city", "date"]
+    "task_id": "TC-TOOL-001",
+    "layer": "L1",
+    "domain": "tool_calling",
+    "instruction": "请帮我查一下明天北京的天气怎么样？",
+    "ground_truth": {
+      "expected_tools": [
+        {
+          "name": "get_weather",
+          "arguments": {
+            "city": "北京",
+            "date": "2026-08-29"
+          }
         }
-      },
-      {
-        "name": "book_ticket",
-        "description": "预订火车票或机票",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "destination": { "type": "string" }
-          },
-          "required": ["destination"]
-        }
-      }
-    ],
-    "expected_tool": "get_weather",
-    "expected_params": {
-      "city": "北京",
-      "date": "2026-08-29"
+      ],
+      "required_fields": [
+        "status",
+        "data"
+      ]
     },
-    "is_negative_case": false
+    "metadata": {
+      "is_negative_case": false,
+      "description": "标准工具调用 - 查询天气"
+    }
   },
   {
-    "case_id": "TC-TOOL-002",
-    "description": "防工具幻觉反例 - 纯闲聊/问答不应触发工具调用",
-    "query": "你们公司的客服工作时间是几点到几点？",
-    "available_tools": [
-      {
-        "name": "get_weather",
-        "description": "查询指定城市和日期的天气信息"
-      },
-      {
-        "name": "create_order",
-        "description": "创建新订单并扣除账户余额"
-      }
-    ],
-    "expected_tool": null,
-    "expected_params": null,
-    "is_negative_case": true
+    "task_id": "TC-TOOL-002",
+    "layer": "L1",
+    "domain": "tool_calling",
+    "instruction": "你们公司的客服工作时间是几点到几点？",
+    "ground_truth": {
+      "expected_tools": []
+    },
+    "metadata": {
+      "is_negative_case": true,
+      "description": "防工具幻觉反例 - 纯闲聊/问答不应触发工具调用"
+    }
   }
 ]

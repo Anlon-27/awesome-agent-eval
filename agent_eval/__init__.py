@@ -19,6 +19,7 @@ from agent_eval.scorers.schema_scorer import SchemaIntegrityScorer
 from agent_eval.scorers.rag_scorer import RAGFaithfulnessScorer
 from agent_eval.scorers.trajectory_scorer import TrajectoryMatchingScorer
 from agent_eval.scorers.judge_scorer import PositionSwapJudgeScorer
+from agent_eval.loader import DatasetLoader
 from agent_eval.runner import AgentRunner
 from agent_eval.reporter import ReportGenerator
 
@@ -37,6 +38,7 @@ __all__ = [
     "RAGFaithfulnessScorer",
     "TrajectoryMatchingScorer",
     "PositionSwapJudgeScorer",
+    "DatasetLoader",
     "AgentRunner",
     "ReportGenerator",
 ]

@@ -1,10 +1,27 @@
 [
   {
-    "id": "rag_case_001",
-    "question": "Agentic Eval 评测平台支持哪些核心评测基准？",
-    "retrieved_contexts": [
-      "Agentic Eval 是分布式智能体全生命周期评测平台，全面支持 SWE-bench、OSWorld、TAU-bench 与 BFCL 等 10+ 核心评测基准，支持自定义量规与沙箱隔离执行。"
+    "task_id": "TC-RAG-001",
+    "layer": "L1",
+    "domain": "rag",
+    "instruction": "Agent评测的核心目标是什么？",
+    "context_chunks": [
+      "Agent评测的核心目标是建立可靠的成功量规（Rubrics）与度量衡体系，量化自主规划与工具调用的有效性。",
+      "传统NLP测试依赖BLEU/ROUGE，而在Agent时代必须引入轨迹比对与环境状态翻转断言。"
     ],
-    "ground_truth": "Agentic Eval 平台支持 SWE-bench、OSWorld、TAU-bench 和 BFCL 等 10+ 核心基准。"
+    "ground_truth": {
+      "golden_keywords": [
+        "成功量规",
+        "度量衡体系",
+        "自主规划",
+        "工具调用"
+      ],
+      "required_fields": [
+        "answer",
+        "confidence"
+      ]
+    },
+    "metadata": {
+      "domain": "agent_evaluation"
+    }
   }
 ]

@@ -1,28 +1,66 @@
 [
   {
-    "task_id": "TASK-MULTITURN-001",
-    "scenario": "外卖点餐与中途改口",
+    "task_id": "TC-POMDP-001",
+    "layer": "L3",
+    "domain": "service_dialogue",
+    "instruction": "我想点一份麻婆豆腐外卖，送达时间19:00前，预算50元以内",
     "environment": {
-      "merchant": "川味小馆",
-      "menu": [
-        { "item_id": 101, "name": "麻婆豆腐", "price": 38, "spicy_levels": ["不辣", "微辣", "特辣"] },
-        { "item_id": 102, "name": "水煮鱼", "price": 88, "spicy_levels": ["微辣", "特辣"] }
-      ],
-      "max_budget": 50
-    },
-    "user_goal_card": {
-      "initial_query": "我想点一份麻婆豆腐外卖",
-      "hidden_constraints": {
-        "budget": 50,
-        "taste_shift": "第三轮中途将'微辣'改成'完全不辣'",
-        "delivery_time": "19:00前送达"
+      "sandbox_image": "mock-merchant-service:v1",
+      "initial_state": {
+        "merchant": "川味小馆",
+        "menu": [
+          {
+            "item_id": 101,
+            "name": "麻婆豆腐",
+            "price": 38,
+            "spicy_levels": [
+              "不辣",
+              "微辣",
+              "特辣"
+            ]
+          },
+          {
+            "item_id": 102,
+            "name": "水煮鱼",
+            "price": 88,
+            "spicy_levels": [
+              "微辣",
+              "特辣"
+            ]
+          }
+        ],
+        "max_budget": 50
       }
     },
-    "evaluation_rubrics": [
-      "最终下单菜品必须严格等于【麻婆豆腐】",
-      "最终菜品口味必须为【不辣】（成功识别并覆盖中途改口）",
-      "订单总金额必须 <= 50 元",
-      "在最终发起扣款创建订单前，必须主动向用户复述关键信息并请求确认"
-    ]
+    "ground_truth": {
+      "expected_tools": [
+        {
+          "name": "create_order",
+          "arguments": {
+            "item_id": 101,
+            "spicy": "不辣",
+            "delivery_time": "19:00"
+          }
+        }
+      ],
+      "expected_state_diff": {
+        "order_status": "CREATED",
+        "total_price": 38
+      },
+      "golden_keywords": [
+        "麻婆豆腐",
+        "不辣",
+        "已确认"
+      ]
+    },
+    "metadata": {
+      "dynamic_change": "第三轮中途将'微辣'改成'完全不辣'",
+      "simulation_rubrics": [
+        "最终下单菜品必须严格等于【麻婆豆腐】",
+        "最终菜品口味必须为【不辣】（成功识别并覆盖中途改口）",
+        "订单总金额必须 <= 50 元",
+        "在最终发起扣款创建订单前，必须主动向用户复述关键信息并请求确认"
+      ]
+    }
   }
 ]

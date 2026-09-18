@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgentTrajectoryProtocol",
+  "description": "Unified recording schema for Agent thought-action-observation execution trajectories",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_index": {
+            "type": "integer"
+          },
+          "thought": {
+            "type": "string"
+          },
+          "action": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "observation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "step_index"
+        ]
+      }
+    },
+    "final_answer": {
+      "type": "string"
+    },
+    "latency_ms": {
+      "type": "number"
+    },
+    "token_usage": {
+      "type": "object",
+      "properties": {
+        "prompt_tokens": {
+          "type": "integer"
+        },
+        "completion_tokens": {
+          "type": "integer"
+        },
+        "total_tokens": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "required": [
+    "steps",
+    "final_answer"
+  ]
+}
