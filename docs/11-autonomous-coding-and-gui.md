@@ -1,4 +1,4 @@
-# 08. OpenHands 与 SWE-Agent：自主编程智能体架构设计、ACI 接口与 SWE-bench 评测实战
+# 11. 自主编程与 GUI 智能体专题：OpenHands (CodeAct) 与 SWE-Agent (ACI)
 
 在以 **SWE-bench** 为代表的复杂软件工程评测中，仅靠简单的“对话式大模型”远远无法解决实际代码仓库中的 Bug。业界诞生了以 **OpenHands (原 OpenDevin)** 和 **SWE-Agent** 为代表的顶级自主编程智能体（Autonomous Software Engineering Agents）。
 
@@ -42,7 +42,7 @@ graph TD
 
 ---
 
-## ⚡ 三、 OpenHands (OpenDevin) 架构：EventStream 与 CodeAct
+## ⚡ 三、 OpenHands 架构：EventStream 与 CodeAct 模式
 
 OpenHands 采用了高度工业化的 **EventStream（事件流驱动）架构**：
 
@@ -61,53 +61,10 @@ OpenHands 采用了高度工业化的 **EventStream（事件流驱动）架构**
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Agent as CodeActAgent
-    participant Stream as EventStream
-    participant Sandbox as Docker Runtime
-    participant Eval as SWE-bench Harness
-
-    Agent->>Stream: 发起 Action: CmdRunAction("pytest tests/test_auth.py")
-    Stream->>Sandbox: 在容器内执行 pytest
-    Sandbox-->>Stream: 返回 Observation: CmdOutputObservation(exit_code=1, "1 failed")
-    Stream-->>Agent: 接收测试失败报错
-    Note over Agent: 分析报错，自主编写代码进行 Bug 修复
-    Agent->>Stream: 发起 Action: FileEditAction("django/contrib/auth.py", diff)
-    Stream->>Sandbox: 应用代码变更
-    Agent->>Stream: 发起 Action: CmdRunAction("pytest tests/test_auth.py")
-    Sandbox-->>Stream: 返回 Observation: "1 passed" (单元测试变绿!)
-    Agent->>Eval: 提交完成任务，生成 git diff
-```
-
 ---
 
-## 📊 四、 在 SWE-bench 上的实战评测运行流程
+## 🐳 四、 自主编程 Agent 评测工程最佳实践
 
-如果你想用 OpenHands 或 SWE-Agent 在 SWE-bench 上跑评测，标准执行流水线如下：
-
-```bash
-# 1. 安装 SWE-bench 评测套件
-pip install swebench
-
-# 2. 运行 SWE-Agent 针对 SWE-bench Lite 生成预测 Patch
-python run.py \
-  --model_name "gpt-4o" \
-  --data_path "princeton-nlp/SWE-bench_Lite" \
-  --config_file "config/default.yaml" \
-  --output_dir "eval_outputs/swe_agent_lite"
-
-# 3. 运行 SWE-bench 官方 Harness 进行客观单测翻转判分
-python -m swebench.harness.run_evaluation \
-  --dataset_name "princeton-nlp/SWE-bench_Lite" \
-  --predictions_path "eval_outputs/swe_agent_lite/all_preds.jsonl" \
-  --max_workers 4 \
-  --run_id "swe_agent_eval_run"
-```
-
----
-
-### 💡 核心启示（测试开发与架构视角）：
-1. **Agent 的本质是“沙箱中的状态机”**：评测的不是模型说了什么漂亮话，而是看它能否在隔离的 Docker 容器中把 `pytest` 从红灯调成绿灯；
-2. **ACI（交互接口）的工程打磨至关重要**：良好的分页查看、行级编辑与语法护栏，能够直接将 Agent 的有效任务完成率提升 15%~30%！
+1. **容器秒级重置**：每个测试用例必须运行在独立的 Docker 容器内，执行完毕后彻底销毁，严禁残留编译缓存污染后续用例；
+2. **网络隔离与外网阻断**：评测期间必须断开沙箱的外网访问权限，防止模型在遇到难题时偷偷 curl 搜索引擎爬取现成补丁，造成评测作弊；
+3. **执行时间与 Token 熔断**：为每个 Task 设置最大执行时间（如 15 分钟）与最大 Token 预算（如 100k tokens），防止 Agent 陷入死锁爆刷 API 账单。

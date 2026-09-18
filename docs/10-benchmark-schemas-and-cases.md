@@ -1,14 +1,26 @@
-# 07. 工业界前沿实战案例、权威基准与样本数据结构 (Case Studies & Benchmark Schemas)
+# 10. 全球权威基准深度拆解与标准数据结构 (Benchmark Schemas & Datasets)
 
-本章汇集并深度拆解全球工业界与学术界在 **Agent 评测基准 (SWE-bench / OSWorld / Terminal-Bench / VitaBench / TAU-bench / GAIA)** 领域的顶级实战成果，并提供**权威基准的标准样本数据结构（JSON Schemas）与判定规则**。
+工业界评估 Agent 时，如果脱离了业界公认的权威基准，评测结论将失去横向对比的说服力。
+本章系统拆解全球四大顶级基准：**SWE-bench**（自主编程）、**OSWorld**（操作系统多模态）、**Terminal-Bench**（命令行运维）与**美团 VitaBench**（生活服务三维 POMDP），并提供标准化样本数据结构（JSON Schemas）与判定规则。
 
 ---
 
-## 💻 案例专题一：SWE-bench (普林斯顿大学 / Cognition / OpenAI)
+## 🏆 一、 全球四大核心 Agent Benchmark 全景对比
+
+| 评测基准 | 主导机构 / 论文 | 核心场景与被测环境 | 核心判定机制与黄金标准 |
+| :--- | :--- | :--- | :--- |
+| **SWE-bench** | 普林斯顿 / OpenAI | 真实 GitHub 开源仓库 Issue 代码修复 | Docker 沙箱中运行 Unit Test（断言测试用例从 Fail 翻转为 Pass） |
+| **OSWorld** | 港大 / 普林斯顿 | 真实 Ubuntu 桌面环境多模态 GUI + CLI 操作 | 跨应用（Chrome、LibreOffice、VS Code）物理状态变更断言 |
+| **Terminal-Bench** | 普林斯顿 (InterCode) | Linux 终端 Bash 运维与网络排错 | 命令行标准输出（Stdout/Stderr）与错误自纠偏验证 |
+| **VitaBench** | 美团 (LongCat 团队) | 外卖、到店、出行等复杂生活服务 | 三维 POMDP 复杂度建模、66 工具依赖图与 `Pass^4` 严苛抗抖动压测 |
+
+---
+
+## 💻 二、 案例专题一：SWE-bench (代码修复黄金定级赛)
 
 * 📄 **论文**：[*SWE-bench: Can Language Models Resolve Real-World GitHub Issues? (ICLR 2024)*](https://arxiv.org/abs/2310.06770)
 * 🐙 **官方仓库**：[`princeton-nlp/SWE-bench`](https://github.com/princeton-nlp/SWE-bench)
-* 🌟 **行业地位**：**AI 软件工程与自主代码 Agent（如 OpenHands, SWE-agent, Devin, Claude Code）全球公认的唯一“黄金定级赛”！**
+* 🌟 **行业地位**：**AI 软件工程与自主代码 Agent 全球公认的唯一“黄金定级赛”！**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -51,7 +63,7 @@
 
 ---
 
-## 🖥️ 案例专题二：OSWorld (香港大学 / 普林斯顿 / 滑铁卢大学)
+## 🖥️ 三、 案例专题二：OSWorld (真实操作系统多模态基准)
 
 * 📄 **论文**：[*OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Operating Systems (NeurIPS 2024)*](https://arxiv.org/abs/2404.07972)
 * 🐙 **官方仓库**：[`xlang-ai/OSWorld`](https://github.com/xlang-ai/OSWorld)
@@ -87,12 +99,9 @@
 }
 ```
 
-#### ⚖️ 核心判定规则：
-* 评测引擎在 Agent 执行完毕后，直接调用底层的 Python 脚本、SQLite 读取器或 PDF 解析器，比对操作系统文件状态、DOM 节点或配置文件属性。
-
 ---
 
-## ⌨️ 案例专题三：Terminal-Bench / InterCode (命令行与终端 Agent 基准)
+## ⌨️ 四、 案例专题三：Terminal-Bench (命令行与终端 Agent 基准)
 
 * 📄 **代表基准**：[`princeton-nlp/intercode`](https://github.com/princeton-nlp/intercode) / **Terminal-Bench**
 * 🌟 **行业地位**：评估 Agent 在 **Linux 命令行终端（Bash / Shell）** 环境下自主运维、网络排错与系统管理的标准基准。
@@ -117,7 +126,7 @@
 
 ---
 
-## 🐱 案例专题四：美团龙猫 (Meituan LongCat) 全景前沿体系
+## 🐱 五、 案例专题四：美团龙猫 (Meituan LongCat) 全景前沿体系
 
 ### 1. 美团 VitaBench：生活服务复杂交互评测基准
 * 📄 **核心定位**：解决学术 Benchmark 过于“玩具化”的痛点，构建首个贴近真实复杂生活场景的 Agent 交互与决策评测环境。
@@ -153,23 +162,14 @@
 }
 ```
 
-### 2. LongCat-Next: Lexicalizing Modalities as Discrete Tokens
-* 📄 **论文**：[*LongCat-Next: Lexicalizing Modalities as Discrete Tokens (arXiv:2603.27538)*](https://arxiv.org/pdf/2603.27538)
-* 🐙 **开源仓库**：[`meituan-longcat/LongCat-Next`](https://github.com/meituan-longcat/LongCat-Next)
-
-### 3. LongCat-Flash Technical Report: 高并发低延迟架构
-* 📄 **技术报告**：[*LongCat-Flash Technical Report (arXiv:2509.01322)*](https://arxiv.org/abs/2509.01322)
+### 2. LongCat 系列前沿成果：
+* **LongCat-Next**：[*Lexicalizing Modalities as Discrete Tokens (arXiv:2603.27538)*](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next)；
+* **LongCat-Flash**：[*High-Concurrency Low-Latency Inference (arXiv:2509.01322)*](https://arxiv.org/abs/2509.01322)。
 
 ---
 
-## 🏛️ 案例专题五：TAU-bench (Sierra / 斯坦福大学)
+## 🏛️ 六、 其他权威基准速查
 
-* 📄 **论文 & 仓库**：[`sierra-research/tau-bench`](https://github.com/sierra-research/tau-bench)
-* **核心场景**：航空公司退改签、电商退货退款等带真实数据库约束的智能客服场景。
-
----
-
-## 🌍 案例专题六：GAIA (Meta / AutoGPT / HuggingFace)
-
-* 📄 **基准地址**：[GAIA Benchmark Leaderboard](https://huggingface.co/spaces/gaia-benchmark/leaderboard)
-* **核心场景**：通用个人 AI 助手（General AI Assistants）多模态、多步骤长任务处理（反向图灵测试）。
+* **TAU-bench** ([`sierra-research/tau-bench`](https://github.com/sierra-research/tau-bench))：航空公司退改签、电商退货退款等带真实数据库事务回滚的智能客服场景；
+* **GAIA** ([Leaderboard](https://huggingface.co/spaces/gaia-benchmark/leaderboard))：通用个人 AI 助手长任务综合基准（反向图灵测试）；
+* **BFCL** ([Leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html))：UC 伯克利 Tool Calling / Function Calling 权威排行榜。

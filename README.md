@@ -2,59 +2,100 @@
 
 # 🤖 Awesome Agent Eval (工业级 AI Agent 评测全景体系)
 
-**The Definitive Guide, Methodology & Engineering Toolkit for AI Agent Evaluation**
+**The Definitive Methodology, Architecture & Engineering Toolkit for AI Agent Evaluation**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/)
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-[English](./README_EN.md) | [简体中文](./README.md) | [📚 体系化指南](./docs/) | [💻 实战代码](./evals/) | [📊 黄金数据集](./datasets/)
+[English](./README_EN.md) | [简体中文](./README.md) | [📚 体系白皮书](./docs/01-framework-and-edd.md) | [🚀 落地 SOP](./docs/02-enterprise-adoption-sop.md) | [💻 实战代码](./evals/) | [📊 黄金数据集](./datasets/)
 
 </div>
 
 ---
 
-## 📖 项目简介 (Introduction)
+## 📖 项目定位与体系蓝图 (Introduction & Architecture)
 
-随着大语言模型从单轮问答演进为具备“自主规划、工具调用、多轮交互、多智能体协作”的 **AI Agent**，传统的确定性软件测试与简单的问答评测已经完全失效。
+随着大语言模型从单轮文本生成演进为具备“自主规划、工具调用、长期记忆、环境交互与多智能体协作”的 **AI Agent**，传统的确定性软件测试（`assert == expected`）与简单的问答打分已彻底失效。
 
-**Awesome Agent Eval** 旨在构建一个**工业级、端到端、零基础到精通的 AI Agent 评测体系与实操框架**。
+**Awesome Agent Eval** 确立了工业界领先的 **4 维正交评测全景架构** 与 **评估驱动开发（EDD）工程范式**，涵盖：
+* **维度一：评测对象分层 (What: L0 ~ L4)**：基模认知 ➔ 原子组件 ➔ 规划状态机 ➔ 端到端沙箱 ➔ 多智能体协作；
+* **维度二：指标金字塔 (How: 4-Tier Metrics)**：确定性断言 ➔ 过程轨迹质量 ➔ 业务价值 ROI ➔ 横向工程质量 (NFR)；
+* **维度三：评测执行与裁判引擎 (Engine: 4 Levels)**：代码断言 ➔ Docker/ACI 隔离沙箱 ➔ 动态对抗仿真 ➔ 双盲消偏裁判；
+* **维度四：生命周期与数据飞轮 (Lifecycle: Dev to Flywheel)**：开发微评测 ➔ 5 大发布闸门 ➔ 影子流量 ➔ Badcase 自进化闭环。
 
-本项目不仅系统覆盖 **NLP/LLM 核心度量指标（Accuracy、BLEU、BERTScore、NDCG）** 与 **主流评测框架（OpenCompass、LM-Eval-Harness、DeepEval、Ragas）**，更提供 **企业级评测平台 5 层架构设计、开箱即用的自动化测试脚本、标准数据结构（JSON Schemas）与前沿基准深度剖析**。
+```mermaid
+flowchart TD
+    classDef stageBox fill:#f8fafc,stroke:#3b82f6,stroke-width:2px,rx:8px,ry:8px;
+    classDef stepNode fill:#ffffff,stroke:#cbd5e1,stroke-width:1.5px,color:#0f172a;
+
+    subgraph D1["📘 维度一：评测对象分层 (L0 ~ L4)"]
+        direction TB
+        L0["L0: 基座模型认知层 (IFEval / 逻辑推理 / TCO 降本)"]
+        L1["L1: 原子组件单体层 (Prompt 模板 / RAG 双段法 / 工具参数)"]
+        L2["L2: 规划与状态机层 (ReAct 循环 / DAG 工作流 / POMDP / 反思自愈)"]
+        L3["L3: 任务交互与环境层 (Docker 沙箱 / 数据库状态翻转 / 用户仿真器)"]
+        L4["L4: 多智能体协作层 (通信协议治理 / 角色漂移 / 共识收敛 / 拓扑消融)"]
+        L0 --> L1 --> L2 --> L3 --> L4
+    end
+    class D1 stageBox;
+    class L0,L1,L2,L3,L4 stepNode;
+
+    subgraph D2["📊 维度二：指标金字塔 (4-Tier Metrics)"]
+        direction TB
+        M1["业务价值层 (Task Success Rate / Pass^k / 人工接管率)"]
+        M2["过程轨迹层 (有效步数比 / 工具精准率 / 规划偏航度)"]
+        M3["原子精度层 (Exact Match / JSON Schema 100% / 状态翻转 Diff)"]
+        M4["工程非功能性 NFR (P99 时延 / Token 成本预算 / 500 降级率)"]
+        M1 --- M2 --- M3 --- M4
+    end
+    class D2 stageBox;
+    class M1,M2,M3,M4 stepNode;
+
+    subgraph D3["⚙️ 维度三：评测引擎与沙箱 (Execution & Engine)"]
+        direction TB
+        E1["Level 1: 确定性规则与代码断言 (Regex / Pydantic / 状态码)"]
+        E2["Level 2: 隔离容器沙箱 (Docker / Linux ACI / DB 事务回滚)"]
+        E3["Level 3: 对抗仿真引擎 (带隐式目标卡与中途变卦的 User Simulator)"]
+        E4["Level 4: LLM-as-a-Judge 裁决 (G-Eval 量规 / Position-Swap 双盲)"]
+        E1 --> E2 --> E3 --> E4
+    end
+    class D3 stageBox;
+    class E1,E2,E3,E4 stepNode;
+
+    subgraph D4["🔄 维度四：生命周期与数据飞轮 (MLOps & Flywheel)"]
+        direction TB
+        P1["Phase 1 (Dev): 提示词微评测与 Prompt A/B 探索"]
+        P2["Phase 2 (CI/CD): 5 大发布闸门红线与阻断回归流水线"]
+        P3["Phase 3 (Prod): 影子流量 (Shadow Run) 与线上灰度 A/B"]
+        P4["Phase 4 (Flywheel): 生产 Badcase 自动聚类 -> 敏感脱敏 -> 评测集自扩充"]
+        P1 --> P2 --> P3 --> P4 --> P1
+    end
+    class D4 stageBox;
+    class P1,P2,P3,P4 stepNode;
+```
 
 ---
 
-## 📚 体系化深度指南目录 (Table of Contents)
+## 📚 12 阶体系化白皮书导航 (Table of Contents)
 
-> 💡 **学习建议**：全套指南按照 **认知建立 ➔ 选型单体 ➔ 工程质量 ➔ 系统集成与基准 ➔ 生产运维与最佳实践** 的 5 阶渐进式路线编排，零基础可依序阅读：
+> 💡 **学习与建设指引**：企业落地建议首先阅读 **01 体系总览** 与 **02 落地演进 SOP**，明确各阶段重点；再按 **L0~L4 分层** 逐步构筑评测能力：
 
-| 章节导航 | 核心主题与深度实战要点 |
-| :--- | :--- |
-| [**01. 困境与 EDD**](./docs/01-dilemmas-and-edd.md) | Agent 评测 5 大困境、评估驱动开发（EDD）核心思想、生命周期图与 5 阶学习路线图 |
-| [**02. 指标与武器库**](./docs/02-general-weapons.md) | Accuracy / BLEU / BERTScore / NDCG 代码度量、双盲消偏与 Judge 量规 |
-| [**03. 基模选型与 TCO**](./docs/03-model-selection.md) | 场景反推能力画像、私有集双盲测试与旗舰/轻量模型分流架构降本 |
-| [**04. 核心零件单体**](./docs/04-component-eval.md) | Prompt 变体、RAG 双段法、Tool Calling 4 项核对与防幻觉反例注入 |
-| [**05. 四大工程质量**](./docs/05-core-quality-dimensions.md) | RAG 效果指标、提示词扰动鲁棒性、JSON Schema 结构合规与 API 500 降级 |
-| [**06. 系统级集成**](./docs/06-system-integration.md) | 5 档轨迹比对、动态 User Simulator（中途改口博弈）与多 Agent 协作消融 |
-| [**07. 权威基准与数据**](./docs/07-benchmark-schemas-and-cases.md) | SWE-bench、OSWorld、Terminal-Bench、美团 VitaBench 的 JSON 数据结构 |
-| [**08. 自主编程专题**](./docs/08-autonomous-coding-agents.md) | OpenHands (CodeAct) 与 SWE-Agent (ACI 接口) 自主编程架构深度拆解 |
-| [**09. 发布闸门与运维**](./docs/09-release-and-ops.md) | 5 大发布闸门红线、线上 A/B 灰度放量与数据飞轮回归闭环 |
-| [**10. 评测平台与生态**](./docs/10-awesome-tools-and-frameworks.md) | OpenCompass、LM-Eval 与企业级评测平台 5 层标准架构开发实战 |
-| [**11. 疑难解答与最佳**](./docs/11-faqs-and-best-practices.md) | 23 个工业级核心疑难深度解析与避坑指南 FAQ |
-
----
-
-## 📊 NLP 与 LLM 核心度量指标全景速查 (Evaluation Metrics)
-
-| 指标名称 | 计算原理与数学特性 | 适用评测场景 | 官方开源库 / 对应 GitHub |
-| :--- | :--- | :--- | :--- |
-| **Accuracy (准确率)** | 预测正确的样本比例 ((TP + TN) / Total) | 单选/多选题 (MMLU)、分类任务 | [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) / [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
-| **Exact Match (EM)** | 100% 严格一致（可配合标点/空格归一化） | 工具函数名、槽位抽取、状态码 | [`huggingface/evaluate`](https://github.com/huggingface/evaluate) |
-| **BLEU (1~4)** | Modified n-gram 匹配精确率 + 简短惩罚 (BP) | 机器翻译、代码生成 (HumanEval) | [`nltk`](https://github.com/nltk/nltk) / [`sacrebleu`](https://github.com/mjpost/sacrebleu) |
-| **ROUGE (1/2/L)** | 基于最长公共子序列（LCS）的召回率导向度量 | 文本摘要、文档提炼、新闻总结 | [`google-research/rouge`](https://google-research/rouge) |
-| **BERTScore** | 预训练模型 Contextual Embedding 最大余弦相似度 | 开放式问答、释义匹配 (**攻克同义词盲区**) | [`Tiiiger/bert_score`](https://github.com/Tiiiger/bert_score) *(ICLR 2020)* |
-| **NDCG@k / MRR** | 归一化折损累计增益与平均倒数排名 | RAG 知识检索切片排序质量评估 | [`ranx`](https://github.com/AmenDa/ranx) / [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) |
+| 章节与链接 | 核心模块归属 | 核心攻坚要点与实战指引 |
+| :--- | :--- | :--- |
+| [**01. 体系总览与 EDD**](./docs/01-framework-and-edd.md) | **方法论总纲** | 4 维正交全景架构、指标金字塔、Agent 评测 5 大困境与评估驱动开发（EDD）哲学 |
+| [**02. 企业落地实战 SOP**](./docs/02-enterprise-adoption-sop.md) | **工程落地** | Day 1~7（冷启动）➔ Day 8~30（CI/CD门禁）➔ Day 31~60（仿真沙箱）➔ Day 61~90（生产飞轮）与 RACI 矩阵 |
+| [**03. L0 基座模型评测**](./docs/03-l0-foundation-model-eval.md) | **对象分层 L0** | 基模四步选型法、IFEval 指令遵循、长文本针中寻草与旗舰/轻量模型分流 TCO 降本架构 |
+| [**04. L1 原子组件单体**](./docs/04-l1-atomic-components-eval.md) | **对象分层 L1** | Prompt 模板微评测、RAG 检索/生成双段量化（NDCG/Faithfulness）、工具调用 5 项核对与反例防幻觉 |
+| [**05. L2 规划与状态机**](./docs/05-l2-planning-and-state-eval.md) | **对象分层 L2** | ReAct 循环稳定性、DAG 状态机跃迁、POMDP 状态建模、死循环拦截与反思自愈评估 |
+| [**06. L3 任务交互与沙箱**](./docs/06-l3-end-to-end-system-eval.md) | **对象分层 L3** | 5 档轨迹比对量规、Docker 沙箱真实状态翻转（DB/FS State Diff）、动态 User Simulator 对抗博弈 |
+| [**07. L4 多智能体协作**](./docs/07-l4-multi-agent-eval.md) | **对象分层 L4** | 通信协议开销、角色漂移（Role Drift）、协作共识收敛度、死锁拦截与拓扑消融分析 |
+| [**08. 指标与裁判武器库**](./docs/08-metrics-and-judge-arsenal.md) | **度量衡与引擎** | 确定性断言、NLP 统计与语义度量（BERTScore）、G-Eval 量规编制与 Position-Swap 双盲消除首位偏见 |
+| [**09. 工程非功能质量 NFR**](./docs/09-engineering-nfr-eval.md) | **横向工程属性** | 输入扰动鲁棒性（标点/错别字/语序）、JSON Schema 100% 校验、API 500/网络超时优雅降级与成本时延 |
+| [**10. 权威基准与数据规范**](./docs/10-benchmark-schemas-and-cases.md) | **全球基准拆解** | SWE-bench（代码）、OSWorld（操作系统）、Terminal-Bench（运维）、VitaBench（生活服务）标准数据结构 |
+| [**11. 自主编程与 GUI 专题**](./docs/11-autonomous-coding-and-gui.md) | **垂直形态前沿** | OpenHands（CodeAct 模式）与 SWE-Agent（ACI 接口）自主编程架构深度拆解与沙箱评测实战 |
+| [**12. 生产闸门与中台闭环**](./docs/12-platform-gates-and-flywheel.md) | **生产发布与平台** | 5 大发布闸门红线、企业级评测中台 5 层标准架构、生产数据自进化飞轮与 25 个工业避坑 FAQ |
 
 ---
 
@@ -84,7 +125,7 @@
 
 | 研究成果 | 类型 | 核心创新点 / 评测意义 | 链接 |
 | :--- | :---: | :--- | :--- |
-| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、`Pass^4` 严苛压测 | [详细解析](./docs/07-benchmark-schemas-and-cases.md#四-美团-vitabench生活服务复杂交互评测基准) |
+| **VitaBench** | 评测基准 | 生活服务三维 POMDP 复杂度建模、66 工具依赖图、`Pass^4` 严苛压测 | [详细解析](./docs/10-benchmark-schemas-and-cases.md#五-案例专题四美团龙猫-meituan-longcat-全景前沿体系) |
 | **LongCat-Next** | 顶会论文 | *Lexicalizing Modalities as Discrete Tokens*：原生统一离散多模态自回归架构 | [Paper (arXiv:2603.27538)](https://arxiv.org/pdf/2603.27538) · [GitHub Repo](https://github.com/meituan-longcat/LongCat-Next) |
 | **LongCat-Flash** | 技术报告 | 高并发实时业务极致低时延推理、MoE 稀疏优化与长上下文 KV 压缩 | [Paper (arXiv:2509.01322)](https://arxiv.org/abs/2509.01322) |
 
